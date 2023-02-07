@@ -1,5 +1,6 @@
 query getTask {
   tasks {
+    id
     name
     content
     done

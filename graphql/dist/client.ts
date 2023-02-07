@@ -74,7 +74,7 @@ export type User = {
 export type GetTaskQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTaskQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', name: string, content?: string | null, done: boolean, user: { __typename?: 'User', name: string } }> };
+export type GetTaskQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, user: { __typename?: 'User', name: string } }> };
 
 export type CreateTodoMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -85,6 +85,7 @@ export type CreateTodoMutation = { __typename?: 'Mutation', createTask: { __type
 export const GetTaskDocument = gql`
     query getTask {
   tasks {
+    id
     name
     content
     done
