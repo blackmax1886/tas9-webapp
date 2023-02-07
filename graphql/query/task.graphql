@@ -1,0 +1,23 @@
+query getTask {
+  tasks {
+    name
+    content
+    done
+    user {
+      name
+    }
+  }
+}
+
+mutation createTodo {
+  createTask(input: { content: "this is task text", userId: "2"}) {
+    user {
+      id
+      name
+    }
+    name
+    done
+    type
+    assigned_at
+  }
+}
