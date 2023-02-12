@@ -12,6 +12,7 @@ const Home: NextPage = () => {
         <div key={task.id}>
           <h1>{task.content}</h1>
           <p>id:{task.id}</p>
+          <p>name:{task.name}</p>
           <p>content:{task.content}</p>
         </div>
       ))}
