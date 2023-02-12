@@ -17,7 +17,14 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createSubTask: Subtask;
   createTask: Task;
+  createUser: User;
+};
+
+
+export type MutationCreateSubTaskArgs = {
+  input: NewSubtask;
 };
 
 
@@ -25,33 +32,66 @@ export type MutationCreateTaskArgs = {
   input: NewTask;
 };
 
+
+export type MutationCreateUserArgs = {
+  input: NewUser;
+};
+
+export type NewSubtask = {
+  content?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  taskId: Scalars['String'];
+};
+
 export type NewTask = {
-  content: Scalars['String'];
+  content?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   userId: Scalars['String'];
+};
+
+export type NewUser = {
+  Email: Scalars['String'];
+  Name: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
   subtasks: Array<Subtask>;
   tasks: Array<Task>;
+  user: User;
+};
+
+
+export type QuerySubtasksArgs = {
+  taskId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryTasksArgs = {
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['String'];
 };
 
 export type Subtask = {
   __typename?: 'Subtask';
-  archived?: Maybe<Scalars['Boolean']>;
+  archived: Scalars['Boolean'];
   assigned_at?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   done: Scalars['Boolean'];
   due?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
-  parent_task: Task;
   priority?: Maybe<Scalars['String']>;
+  task: Task;
 };
 
 export type Task = {
   __typename?: 'Task';
-  archived?: Maybe<Scalars['Boolean']>;
+  archived: Scalars['Boolean'];
   assigned_at?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   done: Scalars['Boolean'];
@@ -60,7 +100,8 @@ export type Task = {
   id: Scalars['ID'];
   name: Scalars['String'];
   priority?: Maybe<Scalars['String']>;
-  type: Scalars['String'];
+  subtasks: Array<Subtask>;
+  type?: Maybe<Scalars['String']>;
   user: User;
 };
 
@@ -69,43 +110,38 @@ export type User = {
   email: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
+  tasks: Array<Task>;
 };
+
+export type CreateTaskMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', id: string, name: string, done: boolean, archived: boolean } };
 
 export type GetTaskQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTaskQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, user: { __typename?: 'User', name: string } }> };
-
-export type CreateTodoMutationVariables = Exact<{ [key: string]: never; }>;
+export type GetTaskQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null }> };
 
 
-export type CreateTodoMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', name: string, done: boolean, type: string, assigned_at?: string | null, user: { __typename?: 'User', id: string, name: string } } };
-
-
-export const GetTaskDocument = gql`
-    query getTask {
-  tasks {
+export const CreateTaskDocument = gql`
+    mutation createTask {
+  createTask(
+    input: {name: "homework2", content: "physics", userId: "01GS0APAFMWDF1PBXDF81EBEKK"}
+  ) {
     id
     name
-    content
     done
-    user {
-      name
-    }
+    archived
   }
 }
     `;
-export const CreateTodoDocument = gql`
-    mutation createTodo {
-  createTask(input: {content: "this is task text", userId: "2"}) {
-    user {
-      id
-      name
-    }
+export const GetTaskDocument = gql`
+    query getTask {
+  tasks(userId: "01GS0APAFMWDF1PBXDF81EBEKK") {
+    id
     name
-    done
-    type
-    assigned_at
+    content
   }
 }
     `;
@@ -117,11 +153,11 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    createTask(variables?: CreateTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTaskMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateTaskMutation>(CreateTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createTask', 'mutation');
+    },
     getTask(variables?: GetTaskQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTaskQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetTaskQuery>(GetTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTask', 'query');
-    },
-    createTodo(variables?: CreateTodoMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTodoMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateTodoMutation>(CreateTodoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createTodo', 'mutation');
     }
   };
 }

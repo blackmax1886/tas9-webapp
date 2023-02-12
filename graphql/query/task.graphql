@@ -1,24 +1,16 @@
-query getTask {
-  tasks {
+mutation createTask {
+  createTask(input: { name:"homework2",content:"physics", userId: "01GS0APAFMWDF1PBXDF81EBEKK"}) {
     id
     name
-    content
     done
-    user {
-      name
-    }
+    archived
   }
 }
 
-mutation createTodo {
-  createTask(input: { content: "this is task text", userId: "2"}) {
-    user {
-      id
-      name
-    }
-    name
-    done
-    type
-    assigned_at
+query getTask {
+  tasks (userId: "01GS0APAFMWDF1PBXDF81EBEKK") {
+    id,
+    name,
+    content
   }
 }
