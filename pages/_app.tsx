@@ -1,8 +1,9 @@
 import type { AppProps } from "next/app";
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
+import {SessionProvider} from "next-auth/react"
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
   const link = createHttpLink({
     uri: "http://localhost:8080/query",
     credentials: "include",
@@ -14,7 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
     </ApolloProvider>
   );
 }
