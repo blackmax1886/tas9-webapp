@@ -118,10 +118,12 @@ export type CreateTaskMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type CreateTaskMutation = { __typename?: 'Mutation', createTask: { __typename?: 'Task', id: string, name: string, done: boolean, archived: boolean } };
 
-export type GetTaskQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetTasksQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
 
 
-export type GetTaskQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null }> };
+export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null }> };
 
 
 export const CreateTaskDocument = gql`
@@ -136,9 +138,9 @@ export const CreateTaskDocument = gql`
   }
 }
     `;
-export const GetTaskDocument = gql`
-    query getTask {
-  tasks(userId: "01GS0APAFMWDF1PBXDF81EBEKK") {
+export const GetTasksDocument = gql`
+    query getTasks($userId: String!) {
+  tasks(userId: $userId) {
     id
     name
     content
@@ -156,8 +158,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createTask(variables?: CreateTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTaskMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateTaskMutation>(CreateTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createTask', 'mutation');
     },
-    getTask(variables?: GetTaskQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTaskQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetTaskQuery>(GetTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTask', 'query');
+    getTasks(variables: GetTasksQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTasksQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTasksQuery>(GetTasksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTasks', 'query');
     }
   };
 }

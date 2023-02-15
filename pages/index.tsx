@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import { useQuery } from "@apollo/client";
 
-import { GetTaskDocument } from "../graphql/dist/client";
-import { GetTaskQuery } from "../graphql/dist/client";
+import { GetTasksDocument } from "../graphql/dist/client";
+import { GetTasksQuery } from "../graphql/dist/client";
 
 const Home: NextPage = () => {
-  const { data } = useQuery<GetTaskQuery>(GetTaskDocument);
+  const { loading, error, data } = useQuery<GetTasksQuery>(GetTasksDocument,{variables: {userId: "01GS0AQ1KW5RTKKRZMN19Y0AZP"}});
   return (
     <div style={{ margin: "0 auto", width: "1000px" }}>
       {data?.tasks?.map((task) => (

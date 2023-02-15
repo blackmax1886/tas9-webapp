@@ -7,8 +7,8 @@ mutation createTask {
   }
 }
 
-query getTask {
-  tasks (userId: "01GS0APAFMWDF1PBXDF81EBEKK") {
+query getTasks ($userId: String!) {
+  tasks (userId: $userId) {
     id,
     name,
     content
