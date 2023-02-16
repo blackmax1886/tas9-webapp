@@ -1,11 +1,19 @@
 import type { NextPage } from "next";
 import { useQuery } from "@apollo/client";
 
+import { GetUserByEmailDocument, GetUserByEmailQuery } from "../graphql/dist/client";
 import { GetTasksDocument } from "../graphql/dist/client";
 import { GetTasksQuery } from "../graphql/dist/client";
+import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
-  const { loading, error, data } = useQuery<GetTasksQuery>(GetTasksDocument,{variables: {userId: "01GS0AQ1KW5RTKKRZMN19Y0AZP"}});
+  const { data: session , status} = useSession()
+  const email = session?.user?.email
+  let { data: userData } = useQuery<GetUserByEmailQuery>(
+    GetUserByEmailDocument,
+    {variables: {email:email}}
+    )
+  const { data } = useQuery<GetTasksQuery>(GetTasksDocument,{variables: {userId: userData?.userByEmail?.id}});
   return (
     <div style={{ margin: "0 auto", width: "1000px" }}>
       {data?.tasks?.map((task) => (

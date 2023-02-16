@@ -2,6 +2,7 @@ import { GetUserByEmailDocument, GetUserByEmailQuery } from '@/graphql/dist/clie
 import { useQuery } from '@apollo/client';
 import type { NextPage } from 'next';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 const Login: NextPage = () => {
   const { data: session , status} = useSession()
@@ -18,6 +19,7 @@ const Login: NextPage = () => {
       Hello, {data?.userByEmail?.name} <br />
       Your ID is {data?.userByEmail?.id} <br />
       <button onClick={() => signOut()}>Sign out</button>
+      <Link href="/">Go to Home</Link>
     </>
     );
   }
