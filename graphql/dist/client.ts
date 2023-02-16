@@ -59,6 +59,7 @@ export type Query = {
   subtasks: Array<Subtask>;
   tasks: Array<Task>;
   user: User;
+  userByEmail: User;
 };
 
 
@@ -74,6 +75,11 @@ export type QueryTasksArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryUserByEmailArgs = {
+  email: Scalars['String'];
 };
 
 export type Subtask = {
@@ -125,6 +131,13 @@ export type GetTasksQueryVariables = Exact<{
 
 export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null }> };
 
+export type GetUserByEmailQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type GetUserByEmailQuery = { __typename?: 'Query', userByEmail: { __typename?: 'User', id: string, name: string, email: string } };
+
 
 export const CreateTaskDocument = gql`
     mutation createTask {
@@ -147,6 +160,15 @@ export const GetTasksDocument = gql`
   }
 }
     `;
+export const GetUserByEmailDocument = gql`
+    query getUserByEmail($email: String!) {
+  userByEmail(email: $email) {
+    id
+    name
+    email
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -160,6 +182,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getTasks(variables: GetTasksQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTasksQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetTasksQuery>(GetTasksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTasks', 'query');
+    },
+    getUserByEmail(variables: GetUserByEmailQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserByEmailQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserByEmailQuery>(GetUserByEmailDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserByEmail', 'query');
     }
   };
 }
