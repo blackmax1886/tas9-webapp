@@ -15,11 +15,18 @@ export type Scalars = {
   Float: number;
 };
 
+export type AccountOfUser = {
+  provider: Scalars['String'];
+  providerAccountId: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createSubTask: Subtask;
   createTask: Task;
   createUser: User;
+  linkAccount: User;
 };
 
 
@@ -35,6 +42,11 @@ export type MutationCreateTaskArgs = {
 
 export type MutationCreateUserArgs = {
   input: NewUser;
+};
+
+
+export type MutationLinkAccountArgs = {
+  input?: InputMaybe<AccountOfUser>;
 };
 
 export type NewSubtask = {
@@ -59,6 +71,7 @@ export type Query = {
   subtasks: Array<Subtask>;
   tasks: Array<Task>;
   user: User;
+  userByAccount: User;
   userByEmail: User;
 };
 
@@ -75,6 +88,11 @@ export type QueryTasksArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryUserByAccountArgs = {
+  providerAccountId: Scalars['String'];
 };
 
 
@@ -114,6 +132,7 @@ export type Task = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String'];
+  googleId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
   tasks: Array<Task>;
@@ -137,6 +156,34 @@ export type GetUserByEmailQueryVariables = Exact<{
 
 
 export type GetUserByEmailQuery = { __typename?: 'Query', userByEmail: { __typename?: 'User', id: string, name: string, email: string } };
+
+export type GetUserQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email: string } };
+
+export type GetUserByAccountQueryVariables = Exact<{
+  providerAccountId: Scalars['String'];
+}>;
+
+
+export type GetUserByAccountQuery = { __typename?: 'Query', userByAccount: { __typename?: 'User', id: string, name: string, email: string } };
+
+export type CreateUserMutationVariables = Exact<{
+  user: NewUser;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name: string, email: string } };
+
+export type LinkTestAccountMutationVariables = Exact<{
+  account: AccountOfUser;
+}>;
+
+
+export type LinkTestAccountMutation = { __typename?: 'Mutation', linkAccount: { __typename?: 'User', id: string, name: string, email: string, googleId?: string | null } };
 
 
 export const CreateTaskDocument = gql`
@@ -169,6 +216,43 @@ export const GetUserByEmailDocument = gql`
   }
 }
     `;
+export const GetUserDocument = gql`
+    query getUser($id: String!) {
+  user(id: $id) {
+    id
+    name
+    email
+  }
+}
+    `;
+export const GetUserByAccountDocument = gql`
+    query getUserByAccount($providerAccountId: String!) {
+  userByAccount(providerAccountId: $providerAccountId) {
+    id
+    name
+    email
+  }
+}
+    `;
+export const CreateUserDocument = gql`
+    mutation createUser($user: NewUser!) {
+  createUser(input: $user) {
+    id
+    name
+    email
+  }
+}
+    `;
+export const LinkTestAccountDocument = gql`
+    mutation linkTestAccount($account: AccountOfUser!) {
+  linkAccount(input: $account) {
+    id
+    name
+    email
+    googleId
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -185,6 +269,18 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getUserByEmail(variables: GetUserByEmailQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserByEmailQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserByEmailQuery>(GetUserByEmailDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserByEmail', 'query');
+    },
+    getUser(variables: GetUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserQuery>(GetUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUser', 'query');
+    },
+    getUserByAccount(variables: GetUserByAccountQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserByAccountQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserByAccountQuery>(GetUserByAccountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserByAccount', 'query');
+    },
+    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
+    },
+    linkTestAccount(variables: LinkTestAccountMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LinkTestAccountMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<LinkTestAccountMutation>(LinkTestAccountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'linkTestAccount', 'mutation');
     }
   };
 }

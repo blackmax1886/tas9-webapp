@@ -5,3 +5,36 @@ query getUserByEmail ($email: String!) {
     email
   }
 }
+
+query getUser ($id: String!) {
+  user(id: $id) {
+    id,
+    name,
+    email
+  }
+}
+
+query getUserByAccount ($providerAccountId: String!) {
+  userByAccount(providerAccountId: $providerAccountId){
+    id,
+    name,
+    email
+  }
+}
+
+mutation createUser ($user: NewUser!) {
+  createUser(input: $user) {
+    id,
+    name,
+    email
+  }
+}
+
+mutation linkTestAccount ($account: AccountOfUser!) {
+  linkAccount(input: $account){
+    id,
+    name,
+    email,
+    googleId
+  }
+}
