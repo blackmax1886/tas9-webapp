@@ -178,12 +178,12 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name: string, email: string } };
 
-export type LinkTestAccountMutationVariables = Exact<{
+export type LinkAccountMutationVariables = Exact<{
   account: AccountOfUser;
 }>;
 
 
-export type LinkTestAccountMutation = { __typename?: 'Mutation', linkAccount: { __typename?: 'User', id: string, name: string, email: string, googleId?: string | null } };
+export type LinkAccountMutation = { __typename?: 'Mutation', linkAccount: { __typename?: 'User', id: string, name: string, email: string, googleId?: string | null } };
 
 
 export const CreateTaskDocument = gql`
@@ -243,8 +243,8 @@ export const CreateUserDocument = gql`
   }
 }
     `;
-export const LinkTestAccountDocument = gql`
-    mutation linkTestAccount($account: AccountOfUser!) {
+export const LinkAccountDocument = gql`
+    mutation linkAccount($account: AccountOfUser!) {
   linkAccount(input: $account) {
     id
     name
@@ -279,8 +279,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser', 'mutation');
     },
-    linkTestAccount(variables: LinkTestAccountMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LinkTestAccountMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<LinkTestAccountMutation>(LinkTestAccountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'linkTestAccount', 'mutation');
+    linkAccount(variables: LinkAccountMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LinkAccountMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<LinkAccountMutation>(LinkAccountDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'linkAccount', 'mutation');
     }
   };
 }
