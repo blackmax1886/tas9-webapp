@@ -14,8 +14,8 @@ query getUser ($id: String!) {
   }
 }
 
-query getUserByAccount ($providerAccountId: String!) {
-  userByAccount(providerAccountId: $providerAccountId){
+query getUserByAccount ($partialAccount: PartialAccount!) {
+  userByAccount(partialAccount: $partialAccount){
     id,
     name,
     email
@@ -30,7 +30,7 @@ mutation createUser ($user: NewUser!) {
   }
 }
 
-mutation linkTestAccount ($account: AccountOfUser!) {
+mutation linkAccount ($account: Account!) {
   linkAccount(input: $account){
     id,
     name,

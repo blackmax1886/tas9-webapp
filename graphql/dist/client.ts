@@ -15,7 +15,7 @@ export type Scalars = {
   Float: number;
 };
 
-export type AccountOfUser = {
+export type Account = {
   provider: Scalars['String'];
   providerAccountId: Scalars['String'];
   userId: Scalars['String'];
@@ -46,7 +46,7 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationLinkAccountArgs = {
-  input?: InputMaybe<AccountOfUser>;
+  input?: InputMaybe<Account>;
 };
 
 export type NewSubtask = {
@@ -62,8 +62,13 @@ export type NewTask = {
 };
 
 export type NewUser = {
-  Email: Scalars['String'];
-  Name: Scalars['String'];
+  email: Scalars['String'];
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type PartialAccount = {
+  provider: Scalars['String'];
+  providerAccountId: Scalars['String'];
 };
 
 export type Query = {
@@ -92,7 +97,7 @@ export type QueryUserArgs = {
 
 
 export type QueryUserByAccountArgs = {
-  providerAccountId: Scalars['String'];
+  partialAccount: PartialAccount;
 };
 
 
@@ -134,7 +139,7 @@ export type User = {
   email: Scalars['String'];
   googleId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
   tasks: Array<Task>;
 };
 
@@ -155,35 +160,35 @@ export type GetUserByEmailQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByEmailQuery = { __typename?: 'Query', userByEmail: { __typename?: 'User', id: string, name: string, email: string } };
+export type GetUserByEmailQuery = { __typename?: 'Query', userByEmail: { __typename?: 'User', id: string, name?: string | null, email: string } };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name: string, email: string } };
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, name?: string | null, email: string } };
 
 export type GetUserByAccountQueryVariables = Exact<{
-  providerAccountId: Scalars['String'];
+  partialAccount: PartialAccount;
 }>;
 
 
-export type GetUserByAccountQuery = { __typename?: 'Query', userByAccount: { __typename?: 'User', id: string, name: string, email: string } };
+export type GetUserByAccountQuery = { __typename?: 'Query', userByAccount: { __typename?: 'User', id: string, name?: string | null, email: string } };
 
 export type CreateUserMutationVariables = Exact<{
   user: NewUser;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name: string, email: string } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, name?: string | null, email: string } };
 
 export type LinkAccountMutationVariables = Exact<{
-  account: AccountOfUser;
+  account: Account;
 }>;
 
 
-export type LinkAccountMutation = { __typename?: 'Mutation', linkAccount: { __typename?: 'User', id: string, name: string, email: string, googleId?: string | null } };
+export type LinkAccountMutation = { __typename?: 'Mutation', linkAccount: { __typename?: 'User', id: string, name?: string | null, email: string, googleId?: string | null } };
 
 
 export const CreateTaskDocument = gql`
@@ -226,8 +231,8 @@ export const GetUserDocument = gql`
 }
     `;
 export const GetUserByAccountDocument = gql`
-    query getUserByAccount($providerAccountId: String!) {
-  userByAccount(providerAccountId: $providerAccountId) {
+    query getUserByAccount($partialAccount: PartialAccount!) {
+  userByAccount(partialAccount: $partialAccount) {
     id
     name
     email
@@ -244,7 +249,7 @@ export const CreateUserDocument = gql`
 }
     `;
 export const LinkAccountDocument = gql`
-    mutation linkAccount($account: AccountOfUser!) {
+    mutation linkAccount($account: Account!) {
   linkAccount(input: $account) {
     id
     name
