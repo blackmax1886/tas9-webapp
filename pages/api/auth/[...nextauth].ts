@@ -9,7 +9,6 @@ const token = jwt.sign(
   process.env.SECRET || 'uVhTdmE4TeAubNhjwJF19FQB4anphxO1ZYtGEpkmMGI='
 )
 
-// Can be replaced by ApolloClient?
 const client = new GraphQLClient(
   process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:8080/query',
   {
