@@ -1,7 +1,7 @@
 import type { AppProps } from "next/app";
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
-import {SessionProvider} from "next-auth/react"
+import {getSession, SessionProvider} from "next-auth/react"
 import { setContext } from '@apollo/client/link/context'
 
 function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
@@ -9,9 +9,8 @@ function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
     uri: "http://localhost:8080/query",
     // credentials: "include",
   });
-  const authLink = setContext((_, {headers}) => {
-    const token = session.user.accessToken
-    console.log(token)
+  const authLink = setContext(async (_, {headers}) => {
+    const token = await getSession()
     return {
       headers: {
         ...headers,
