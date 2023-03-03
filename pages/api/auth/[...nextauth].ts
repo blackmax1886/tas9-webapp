@@ -42,13 +42,14 @@ export default NextAuth({
     },
 
     session: ({ session, token }) => {
+      session.user.id = token?.userId
       session.user.accessToken = jwt.sign(
         {
           userId: token.userId,
         },
         process.env.SECRET || 'uVhTdmE4TeAubNhjwJF19FQB4anphxO1ZYtGEpkmMGI=',
         { expiresIn: '7d' },
-      );
+      )
 
       return session;
     },
