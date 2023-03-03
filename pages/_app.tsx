@@ -7,20 +7,11 @@ import { setContext } from '@apollo/client/link/context'
 function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
   const httpLink = createHttpLink({
     uri: "http://localhost:8080/query",
-    // credentials: "include",
+    credentials: "include",
   });
-  const authLink = setContext(async (_, {headers}) => {
-    const token = await getSession()
-    return {
-      headers: {
-        ...headers,
-        authorization: token ? `Bearer ${token}` : "",
-      }
-    }
-  })
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link: authLink.concat(httpLink),
+    link: httpLink,
   });
 
   return (

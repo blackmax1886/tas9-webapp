@@ -7,13 +7,13 @@ import { GetTasksQuery } from "../graphql/dist/client";
 import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
-  const { data: session , status} = useSession()
-  const email = session?.user?.email
-  let { data: userData } = useQuery<GetUserByEmailQuery>(
-    GetUserByEmailDocument,
-    {variables: {email:email}}
-    )
-  const { data } = useQuery<GetTasksQuery>(GetTasksDocument,{variables: {userId: userData?.userByEmail?.id}});
+  const { data: session, status } = useSession()
+  const { data } = useQuery<GetTasksQuery>(
+    GetTasksDocument,
+    {
+      variables: { userId: session?.user.id },
+      skip: status === 'loading'
+  });
   return (
     <div style={{ margin: "0 auto", width: "1000px" }}>
       {data?.tasks?.map((task) => (
