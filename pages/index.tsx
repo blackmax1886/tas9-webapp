@@ -6,7 +6,7 @@ const Top: NextPage = () => {
     <div>
       <h1>tas9</h1>
       <p>Make your Day more efficient</p>
-      <button onClick={() => signIn()}>Sign in</button>
+      <button onClick={() => signIn('google')}>Sign in with Google</button>
     </div>
   )
 }
