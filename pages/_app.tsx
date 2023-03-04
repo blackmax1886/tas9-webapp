@@ -1,8 +1,7 @@
 import type { AppProps } from "next/app";
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
-import {getSession, SessionProvider} from "next-auth/react"
-import { setContext } from '@apollo/client/link/context'
+import { SessionProvider } from "next-auth/react"
 
 function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
   const httpLink = createHttpLink({

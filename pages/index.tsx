@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import { useQuery } from "@apollo/client";
 
-import { GetUserByEmailDocument, GetUserByEmailQuery } from "../graphql/dist/client";
 import { GetTasksDocument } from "../graphql/dist/client";
 import { GetTasksQuery } from "../graphql/dist/client";
 import { useSession } from "next-auth/react";

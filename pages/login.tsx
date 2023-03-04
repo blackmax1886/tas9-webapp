@@ -1,12 +1,9 @@
-import { GetUserByEmailDocument, GetUserByEmailQuery } from '@/graphql/dist/client';
-import { useQuery } from '@apollo/client';
 import type { NextPage } from 'next';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 const Login: NextPage = () => {
-  const { data: session , status} = useSession()
-  const email = session?.user?.email
+  const { data: session } = useSession()
 
   if (session && session.user) {
     return (
