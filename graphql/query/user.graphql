@@ -1,40 +1,40 @@
-query getUserByEmail ($email: String!) {
+query getUserByEmail($email: String!) {
   userByEmail(email: $email) {
-    id,
-    name,
+    id
+    name
     email
   }
 }
 
-query getUser ($id: String!) {
+query getUser($id: String!) {
   user(id: $id) {
-    id,
-    name,
+    id
+    name
     email
   }
 }
 
-query getUserByAccount ($partialAccount: PartialAccount!) {
-  userByAccount(partialAccount: $partialAccount){
-    id,
-    name,
+query getUserByAccount($partialAccount: PartialAccount!) {
+  userByAccount(partialAccount: $partialAccount) {
+    id
+    name
     email
   }
 }
 
-mutation createUser ($user: NewUser!) {
+mutation createUser($user: NewUser!) {
   createUser(input: $user) {
-    id,
-    name,
+    id
+    name
     email
   }
 }
 
-mutation linkAccount ($account: Account!) {
-  linkAccount(input: $account){
-    id,
-    name,
-    email,
+mutation linkAccount($account: Account!) {
+  linkAccount(input: $account) {
+    id
+    name
+    email
     googleId
   }
 }

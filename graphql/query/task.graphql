@@ -1,5 +1,11 @@
 mutation createTask {
-  createTask(input: { name:"homework2",content:"physics", userId: "01GS0APAFMWDF1PBXDF81EBEKK"}) {
+  createTask(
+    input: {
+      name: "homework2"
+      content: "physics"
+      userId: "01GS0APAFMWDF1PBXDF81EBEKK"
+    }
+  ) {
     id
     name
     done
@@ -7,10 +13,10 @@ mutation createTask {
   }
 }
 
-query getTasks ($userId: String!) {
-  tasks (userId: $userId) {
-    id,
-    name,
+query getTasks($userId: String!) {
+  tasks(userId: $userId) {
+    id
+    name
     content
   }
 }

@@ -1,11 +1,11 @@
-import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import jwt from "jsonwebtoken"
-import { GraphQLClient } from 'graphql-request';
-import { Account, getSdk, NewUser, PartialAccount } from '@/graphql/dist/client';
+import NextAuth from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
+import jwt from 'jsonwebtoken'
+import { GraphQLClient } from 'graphql-request'
+import { Account, getSdk, NewUser, PartialAccount } from '@/graphql/dist/client'
 
 const token = jwt.sign(
-  { role: 'adapter'},
+  { role: 'adapter' },
   process.env.SECRET || 'uVhTdmE4TeAubNhjwJF19FQB4anphxO1ZYtGEpkmMGI='
 )
 
@@ -14,7 +14,7 @@ const client = new GraphQLClient(
   {
     headers: {
       authorization: `bearer ${token}`,
-    }
+    },
   }
 )
 
@@ -35,10 +35,10 @@ export default NextAuth({
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
-        token.userId = user.id;
+        token.userId = user.id
       }
 
-      return token;
+      return token
     },
 
     session: ({ session, token }) => {
@@ -48,43 +48,45 @@ export default NextAuth({
           userId: token.userId,
         },
         process.env.SECRET || 'uVhTdmE4TeAubNhjwJF19FQB4anphxO1ZYtGEpkmMGI=',
-        { expiresIn: '7d' },
+        { expiresIn: '7d' }
       )
 
-      return session;
+      return session
     },
   },
   adapter: {
     createUser: async (newUser: NewUser) => {
-      const { createUser } = await sdk.createUser({user: newUser})
-      return {emailVerified: null, ...createUser}
+      const { createUser } = await sdk.createUser({ user: newUser })
+      return { emailVerified: null, ...createUser }
     },
 
     getUser: async (id: string) => {
-      const { user } = await sdk.getUser({id: id})
+      const { user } = await sdk.getUser({ id: id })
       if (!user) return null
 
-      return {emailVerified: null, ...user, accessToken: 'jwt'}
+      return { emailVerified: null, ...user, accessToken: 'jwt' }
     },
     getUserByEmail: async (email: string) => {
-      const { userByEmail } = await sdk.getUserByEmail({email: email})
+      const { userByEmail } = await sdk.getUserByEmail({ email: email })
       if (!userByEmail) return null
-      
-      return {emailVerified: null, ...userByEmail}
+
+      return { emailVerified: null, ...userByEmail }
     },
     getUserByAccount: async (partialAccount: PartialAccount) => {
-      const { userByAccount } = await sdk.getUserByAccount({partialAccount: partialAccount})
+      const { userByAccount } = await sdk.getUserByAccount({
+        partialAccount: partialAccount,
+      })
       if (!userByAccount) return null
-      
-      return {emailVerified: null, ...userByAccount}
+
+      return { emailVerified: null, ...userByAccount }
     },
     linkAccount: async ({ provider, providerAccountId, userId }) => {
       const account: Account = {
         provider: provider,
         providerAccountId: providerAccountId,
-        userId: userId
+        userId: userId,
       }
-      await sdk.linkAccount({account: account});
+      await sdk.linkAccount({ account: account })
     },
     // @ts-ignore
     createSession: () => {},
@@ -96,5 +98,5 @@ export default NextAuth({
     deleteSession: () => {},
     // @ts-ignore
     updateUser: () => {},
-  }
-});
+  },
+})
