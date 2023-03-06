@@ -3,8 +3,16 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
 import { ApolloProvider } from '@apollo/client'
 import { SessionProvider } from 'next-auth/react'
 import { RootLayout, GuardLayout } from './layouts'
+import { NextComponentType } from 'next'
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+type CustomAppProps = AppProps & {
+  Component: NextComponentType & { isRootPage?: boolean }
+}
+
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: CustomAppProps) {
   const httpLink = createHttpLink({
     uri: 'http://localhost:8080/query',
     credentials: 'include',
