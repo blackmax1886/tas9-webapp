@@ -1,7 +1,9 @@
 import { NextPage } from 'next'
 import { signIn } from 'next-auth/react'
 
-const Top: NextPage = () => {
+const Top: NextPage & {
+  isRootPage?: boolean
+} = () => {
   return (
     <div>
       <h1>tas9</h1>
@@ -12,5 +14,7 @@ const Top: NextPage = () => {
     </div>
   )
 }
+
+Top.isRootPage = true
 
 export default Top

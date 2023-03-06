@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app'
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
 import { ApolloProvider } from '@apollo/client'
 import { SessionProvider } from 'next-auth/react'
+import { RootLayout, GuardLayout } from './layouts'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const httpLink = createHttpLink({
@@ -13,10 +14,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     link: httpLink,
   })
 
+  const LayoutComponent = Component.isRootPage ? RootLayout : GuardLayout
+
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <LayoutComponent>
+          <Component {...pageProps} />
+        </LayoutComponent>
       </ApolloProvider>
     </SessionProvider>
   )
