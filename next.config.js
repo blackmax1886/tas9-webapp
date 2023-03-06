@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
+  compiler: {
+    emotion: true,
+  },
 }
 
 module.exports = nextConfig
