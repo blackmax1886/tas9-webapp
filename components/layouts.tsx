@@ -1,4 +1,4 @@
-import AuthGuard from './AuthGuard'
+import AuthGuard from './auth_guard'
 
 const RootLayout = ({ children }: { children: JSX.Element }) => {
   return <>{children}</>

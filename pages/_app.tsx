@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app'
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
 import { ApolloProvider } from '@apollo/client'
 import { SessionProvider } from 'next-auth/react'
-import { RootLayout, GuardLayout } from './layouts'
+import { RootLayout, GuardLayout } from '../components/layouts'
 import { NextComponentType } from 'next'
 
 type CustomAppProps = AppProps & {
