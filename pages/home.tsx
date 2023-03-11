@@ -14,13 +14,17 @@ import { useState } from 'react'
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession()
-  const { data } = useQuery<GetTasksQuery>(GetTasksDocument, {
+  const { data, refetch } = useQuery<GetTasksQuery>(GetTasksDocument, {
     variables: { userId: session?.user.id },
     skip: status === 'loading',
   })
   const [inputValue, setInputValue] = useState('')
-  const [createTask, { data: createdTask, error, loading }] =
-    useMutation<CreateTaskMutation>(CreateTaskDocument)
+  // TODO: show new task on task list without reloading
+  const [createTask] = useMutation<CreateTaskMutation>(CreateTaskDocument, {
+    onCompleted() {
+      refetch()
+    },
+  })
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
