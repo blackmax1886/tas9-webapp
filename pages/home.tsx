@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 import { GetTasksDocument } from '../graphql/dist/client'
 import { GetTasksQuery } from '../graphql/dist/client'
 import { useSession } from 'next-auth/react'
+import { ContentHeader, Header } from '../components/header'
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession()
@@ -12,7 +13,9 @@ const Home: NextPage = () => {
     skip: status === 'loading',
   })
   return (
-    <div style={{ margin: '0 auto', width: '1000px' }}>
+    <div style={{ margin: '0 auto', width: '1600px' }}>
+      <Header></Header>
+      <ContentHeader></ContentHeader>
       {data?.tasks?.map((task) => (
         <div key={task.id}>
           <h1>{task.content}</h1>
