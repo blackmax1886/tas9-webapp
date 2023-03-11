@@ -1,11 +1,5 @@
-mutation createTask {
-  createTask(
-    input: {
-      name: "homework2"
-      content: "physics"
-      userId: "01GS0APAFMWDF1PBXDF81EBEKK"
-    }
-  ) {
+mutation createTask($task: NewTask!) {
+  createTask(input: $task) {
     id
     name
     done
