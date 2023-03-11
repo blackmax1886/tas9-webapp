@@ -19,7 +19,6 @@ const Home: NextPage = () => {
     skip: status === 'loading',
   })
   const [inputValue, setInputValue] = useState('')
-  // TODO: show new task on task list without reloading
   const [createTask] = useMutation<CreateTaskMutation>(CreateTaskDocument, {
     onCompleted() {
       refetch()
