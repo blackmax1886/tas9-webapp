@@ -10,18 +10,9 @@ import {
 } from '../graphql/dist/client'
 import { useSession } from 'next-auth/react'
 import { ContentHeader, Header } from '../components/header'
+import Board from '@/components/board'
 import { useState } from 'react'
 import { css } from '@emotion/react'
-
-const board = css`
-  box-sizing: border-box;
-  border-radius: 4px;
-  background: #edecee;
-  padding: 8px;
-  padding-bottom: 30px;
-  width: 33%;
-  margin: 1rem;
-`
 
 const addTask = css`
   box-sizing: border-box;
@@ -64,7 +55,7 @@ const Home: NextPage = () => {
     <div style={{ margin: '0 auto', width: '1600px' }}>
       <Header></Header>
       <ContentHeader></ContentHeader>
-      <div css={board}>
+      <Board>
         <div>
           <input
             type="text"
@@ -82,7 +73,7 @@ const Home: NextPage = () => {
             <p>content:{task.content}</p>
           </div>
         ))}
-      </div>
+      </Board>
     </div>
   )
 }
