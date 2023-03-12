@@ -22,6 +22,7 @@ const Home: NextPage = () => {
   const [createTask] = useMutation<CreateTaskMutation>(CreateTaskDocument, {
     onCompleted() {
       refetch()
+      setInputValue('')
     },
   })
 
