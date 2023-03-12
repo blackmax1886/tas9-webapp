@@ -14,6 +14,9 @@ import Board from '@/components/board'
 import { useState } from 'react'
 import { css } from '@emotion/react'
 
+const container = css`
+  display: flex;
+`
 const addTask = css`
   box-sizing: border-box;
   margin-bottom: 3px;
@@ -55,25 +58,33 @@ const Home: NextPage = () => {
     <div style={{ margin: '0 auto', width: '1600px' }}>
       <Header></Header>
       <ContentHeader></ContentHeader>
-      <Board>
-        <div>
-          <input
-            type="text"
-            value={inputValue}
-            placeholder="add new task"
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            css={addTask}
-          ></input>
-        </div>
-        {data?.tasks?.map((task) => (
-          <div key={task.id}>
-            <h1>{task.name}</h1>
-            <p>id:{task.id}</p>
-            <p>content:{task.content}</p>
+      <div css={container}>
+        <Board>
+          <div>
+            <input
+              type="text"
+              value={inputValue}
+              placeholder="add new task"
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              css={addTask}
+            ></input>
           </div>
-        ))}
-      </Board>
+          {data?.tasks?.map((task) => (
+            <div key={task.id}>
+              <h1>{task.name}</h1>
+              <p>id:{task.id}</p>
+              <p>content:{task.content}</p>
+            </div>
+          ))}
+        </Board>
+        <Board>
+          <p>task detail & edit</p>
+        </Board>
+        <Board>
+          <p>subtask detail & edit</p>
+        </Board>
+      </div>
     </div>
   )
 }
