@@ -65,7 +65,7 @@ const Home: NextPage = () => {
             <input
               type="text"
               value={inputValue}
-              placeholder="add new task"
+              placeholder="+ add new task"
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               css={addTask}
