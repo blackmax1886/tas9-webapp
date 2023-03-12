@@ -13,6 +13,7 @@ import { ContentHeader, Header } from '../components/header'
 import Board from '@/components/board'
 import { useState } from 'react'
 import { css } from '@emotion/react'
+import TaskCard from '@/components/task_card'
 
 const container = css`
   display: flex;
@@ -70,13 +71,7 @@ const Home: NextPage = () => {
               css={addTask}
             ></input>
           </div>
-          {data?.tasks?.map((task) => (
-            <div key={task.id}>
-              <h1>{task.name}</h1>
-              <p>id:{task.id}</p>
-              <p>content:{task.content}</p>
-            </div>
-          ))}
+          <TaskCard data={data}></TaskCard>
         </Board>
         <Board>
           <p>task detail & edit</p>
