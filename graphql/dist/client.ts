@@ -159,7 +159,7 @@ export type GetTasksQueryVariables = Exact<{
 }>;
 
 
-export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null }> };
+export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean }> };
 
 export type GetUserByEmailQueryVariables = Exact<{
   email: Scalars['String'];
@@ -213,6 +213,13 @@ export const GetTasksDocument = gql`
     id
     name
     content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
   }
 }
     `;

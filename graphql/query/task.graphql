@@ -12,5 +12,12 @@ query getTasks($userId: String!) {
     id
     name
     content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
   }
 }
