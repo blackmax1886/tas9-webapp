@@ -31,6 +31,7 @@ const addTask = css`
   border-radius: 2px;
   background-color: rgba(26, 24, 29, 0.06);
   width: 100%;
+  font-size: 1rem;
 `
 const Home: NextPage = () => {
   const { data: session, status } = useSession()
