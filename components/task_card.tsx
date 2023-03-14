@@ -8,6 +8,7 @@ import { useMutation } from '@apollo/client'
 import { css } from '@emotion/react'
 import { useState } from 'react'
 import { ChangeEvent, MouseEvent } from 'react'
+import Image from 'next/image'
 
 const taskCard = css`
   display: flex;
@@ -32,7 +33,7 @@ const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
     UpdateTaskIsDoneDocument
   )
 
-  const handleClick = (event: MouseEvent<HTMLLabelElement>) => {
+  const handleTaskIsDone = (event: MouseEvent<HTMLLabelElement>) => {
     setIsDone(!isDone)
     updateTaskIsDone({
       variables: {
@@ -74,14 +75,28 @@ const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
     `}
   `
 
+  const deleteButton = css`
+    margin-left: auto;
+    background: transparent;
+    border: none;
+  `
+
   return (
     <>
       <div key={task?.id} css={taskCard}>
         <div css={checkboxWrapper}>
           <input type="checkbox" css={checkbox}></input>
-          <label css={checkboxWrapperLabel} onClick={handleClick}></label>
+          <label css={checkboxWrapperLabel} onClick={handleTaskIsDone}></label>
         </div>
         <label>{task?.name}</label>
+        <button css={deleteButton}>
+          <Image
+            src="/delete-button.png"
+            alt="delete"
+            height={24}
+            width={24}
+          ></Image>
+        </button>
       </div>
     </>
   )
