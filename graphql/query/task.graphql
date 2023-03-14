@@ -21,3 +21,18 @@ query getTasks($userId: String!) {
     archived
   }
 }
+
+mutation updateTaskIsDone($taskId: String!, $isDone: Boolean!) {
+  updateTaskIsDone(id: $taskId, isDone: $isDone) {
+    id
+    name
+    content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
+  }
+}

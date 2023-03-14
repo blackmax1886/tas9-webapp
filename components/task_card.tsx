@@ -1,4 +1,10 @@
-import { GetTasksQuery, Task } from '@/graphql/dist/client'
+import {
+  GetTasksQuery,
+  Task,
+  UpdateTaskIsDoneDocument,
+  UpdateTaskIsDoneMutation,
+} from '@/graphql/dist/client'
+import { useMutation } from '@apollo/client'
 import { css } from '@emotion/react'
 import { useState } from 'react'
 import { ChangeEvent, MouseEvent } from 'react'
@@ -22,9 +28,18 @@ const checkboxWrapper = css`
 
 const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
   const [isDone, setIsDone] = useState(false)
+  const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
+    UpdateTaskIsDoneDocument
+  )
 
   const handleClick = (event: MouseEvent<HTMLLabelElement>) => {
     setIsDone(!isDone)
+    updateTaskIsDone({
+      variables: {
+        taskId: task?.id,
+        isDone: !isDone,
+      },
+    })
   }
   const handleDone = (event: ChangeEvent<HTMLInputElement>) => {
     setIsDone(event.target.checked)
