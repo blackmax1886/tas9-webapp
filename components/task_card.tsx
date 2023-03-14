@@ -27,7 +27,7 @@ const checkboxWrapper = css`
 `
 
 const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
-  const [isDone, setIsDone] = useState(false)
+  const [isDone, setIsDone] = useState(task?.done)
   const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
     UpdateTaskIsDoneDocument
   )
@@ -40,9 +40,6 @@ const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
         isDone: !isDone,
       },
     })
-  }
-  const handleDone = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsDone(event.target.checked)
   }
 
   const checkboxWrapperLabel = css`
