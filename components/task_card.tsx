@@ -29,7 +29,13 @@ const checkboxWrapper = css`
   align-items: center;
 `
 
-const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
+const TaskCard = ({
+  task,
+  refetch,
+}: {
+  task: Partial<Task> | undefined
+  refetch: QueryResult<GetTasksQuery>['refetch']
+}) => {
   const [isDone, setIsDone] = useState(task?.done)
   const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
     UpdateTaskIsDoneDocument
@@ -118,7 +124,7 @@ const TaskCards = ({
   return (
     <>
       {data?.tasks.map((task: Partial<Task>) => (
-        <TaskCard key={task.id} task={task}></TaskCard>
+        <TaskCard key={task.id} task={task} refetch={refetch}></TaskCard>
       ))}
     </>
   )
