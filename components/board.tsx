@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import { ReactNode } from 'react'
+import { ReactElement } from 'react'
 
 const board = css`
   box-sizing: border-box;
@@ -10,7 +10,7 @@ const board = css`
   width: 33%;
   margin: 1rem;
 `
-const Board = ({ children }: { children: ReactNode }) => {
+const Board = ({ children }: { children: ReactElement | ReactElement[] }) => {
   return <div css={board}>{children}</div>
 }
 

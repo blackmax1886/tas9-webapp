@@ -7,13 +7,14 @@ import {
   CreateTaskDocument,
   GetTasksQuery,
   GetTasksDocument,
+  Task,
 } from '../graphql/dist/client'
 import { useSession } from 'next-auth/react'
 import { ContentHeader, Header } from '../components/header'
 import Board from '@/components/board'
 import { useState } from 'react'
 import { css } from '@emotion/react'
-import TaskCard from '@/components/task_card'
+import { TaskCards } from '@/components/task_card'
 
 const container = css`
   display: flex;
@@ -71,7 +72,7 @@ const Home: NextPage = () => {
               css={addTask}
             ></input>
           </div>
-          <TaskCard data={data}></TaskCard>
+          <TaskCards data={data}></TaskCards>
         </Board>
         <Board>
           <p>task detail & edit</p>

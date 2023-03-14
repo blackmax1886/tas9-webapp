@@ -1,5 +1,7 @@
 import { GetTasksQuery, Task } from '@/graphql/dist/client'
 import { css } from '@emotion/react'
+import { useState } from 'react'
+import { ChangeEvent, MouseEvent } from 'react'
 
 const taskCard = css`
   display: flex;
@@ -10,7 +12,7 @@ const checkbox = css`
   display: none;
 `
 
-const checkboxOverride = css`
+const checkboxWrapper = css`
   display: flex;
   margin: 1rem;
   position: relative;
@@ -18,40 +20,69 @@ const checkboxOverride = css`
   align-items: center;
 `
 
-const checkboxOverrideLabel = css`
-  background: none repeat scroll 0 0 #eeeeee;
-  border: 1px solid #dddddd;
-  cursor: pointer;
-  height: 1.5rem;
-  width: 1.5rem;
+const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
+  const [isDone, setIsDone] = useState(false)
 
-  &:after {
-    border-style: none none solid solid;
-    content: '';
-    height: 5px;
-    left: 6px;
-    opacity: 0;
-    -ms-transform: rotate(-45deg); /* IE 9 */
-    -webkit-transform: rotate(-45deg); /* Safari and Chrome */
-    transform: rotate(-90deg);
-    width: 10px;
+  const handleClick = (event: MouseEvent<HTMLLabelElement>) => {
+    setIsDone(!isDone)
   }
-`
+  const handleDone = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsDone(event.target.checked)
+  }
 
-const TaskCard = ({ data }: { data: GetTasksQuery | undefined }) => {
+  const checkboxWrapperLabel = css`
+    background: none repeat scroll 0 0 #eeeeee;
+    border: 1px solid #dddddd;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 1.5rem;
+    width: 1.5rem;
+
+    &:after {
+      border: 2px solid #fff;
+      border-top: none;
+      border-right: none;
+      content: '';
+      height: 6px;
+      left: 0.4rem;
+      opacity: 0;
+      position: absolute;
+      top: 0.5rem;
+      transform: rotate(-45deg);
+      width: 12px;
+    }
+
+    ${isDone &&
+    css`
+      background-color: #66bb6a;
+      border-color: #66bb6a;
+      &:after {
+        opacity: 1;
+      }
+    `}
+  `
+
   return (
     <>
-      {data?.tasks.map((task) => (
-        <div key={task.id} css={taskCard}>
-          <div css={checkboxOverride}>
-            <input type="checkbox" css={checkbox}></input>
-            <label css={checkboxOverrideLabel}></label>
-          </div>
-          <label>{task.name}</label>
+      <div key={task?.id} css={taskCard}>
+        <div css={checkboxWrapper}>
+          <input type="checkbox" css={checkbox}></input>
+          <label css={checkboxWrapperLabel} onClick={handleClick}></label>
         </div>
+        <label>{task?.name}</label>
+      </div>
+    </>
+  )
+}
+
+const TaskCards = ({ data }: { data: GetTasksQuery | undefined }) => {
+  return (
+    <>
+      {data?.tasks.map((task: Partial<Task>) => (
+        <TaskCard task={task}></TaskCard>
       ))}
     </>
   )
 }
 
-export default TaskCard
+export { TaskCard, TaskCards }
