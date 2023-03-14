@@ -42,6 +42,7 @@ const Home: NextPage = () => {
       setInputValue('')
     },
   })
+  const [selectedTaskId, setSelectedTaskId] = useState('')
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -53,6 +54,12 @@ const Home: NextPage = () => {
           },
         },
       })
+    }
+  }
+
+  const openTaskDetail = (taskId: string | undefined) => {
+    if (taskId) {
+      setSelectedTaskId(taskId)
     }
   }
 
@@ -72,10 +79,14 @@ const Home: NextPage = () => {
               css={addTask}
             ></input>
           </div>
-          <TaskCards data={data} refetch={refetch}></TaskCards>
+          <TaskCards
+            data={data}
+            refetch={refetch}
+            openTaskDetail={openTaskDetail}
+          ></TaskCards>
         </Board>
         <Board>
-          <p>task detail & edit</p>
+          <p>{selectedTaskId}</p>
         </Board>
         <Board>
           <p>subtask detail & edit</p>

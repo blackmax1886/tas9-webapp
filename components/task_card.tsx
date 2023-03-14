@@ -15,9 +15,11 @@ import Image from 'next/image'
 const TaskCard = ({
   task,
   refetch,
+  openTaskDetail,
 }: {
   task: Partial<Task> | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
+  openTaskDetail: (taskId: string | undefined) => void
 }) => {
   const [isDone, setIsDone] = useState(task?.done)
   const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
@@ -97,8 +99,11 @@ const TaskCard = ({
     `}
   `
 
+  const taskLabel = css`
+    flex: 1 0 auto;
+  `
+
   const deleteButton = css`
-    margin-left: auto;
     background: transparent;
     border: none;
   `
@@ -110,7 +115,9 @@ const TaskCard = ({
           <input type="checkbox" css={checkbox}></input>
           <label css={checkboxWrapperLabel} onClick={handleTaskIsDone}></label>
         </div>
-        <label>{task?.name}</label>
+        <label css={taskLabel} onClick={() => openTaskDetail(task?.id)}>
+          {task?.name}
+        </label>
         <button css={deleteButton} onClick={handleDeleteTask}>
           <Image
             src="/delete-button.png"
@@ -127,14 +134,21 @@ const TaskCard = ({
 const TaskCards = ({
   data,
   refetch,
+  openTaskDetail,
 }: {
   data: GetTasksQuery | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
+  openTaskDetail: (taskId: string | undefined) => void
 }) => {
   return (
     <>
       {data?.tasks.map((task: Partial<Task>) => (
-        <TaskCard key={task.id} task={task} refetch={refetch}></TaskCard>
+        <TaskCard
+          key={task.id}
+          task={task}
+          refetch={refetch}
+          openTaskDetail={openTaskDetail}
+        ></TaskCard>
       ))}
     </>
   )
