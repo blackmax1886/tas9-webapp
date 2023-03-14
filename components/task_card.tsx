@@ -6,7 +6,7 @@ import {
   UpdateTaskIsDoneDocument,
   UpdateTaskIsDoneMutation,
 } from '@/graphql/dist/client'
-import { useMutation } from '@apollo/client'
+import { useMutation, QueryResult } from '@apollo/client'
 import { css } from '@emotion/react'
 import { useState } from 'react'
 import { MouseEvent } from 'react'
@@ -108,7 +108,13 @@ const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
   )
 }
 
-const TaskCards = ({ data }: { data: GetTasksQuery | undefined }) => {
+const TaskCards = ({
+  data,
+  refetch,
+}: {
+  data: GetTasksQuery | undefined
+  refetch: QueryResult<GetTasksQuery>['refetch']
+}) => {
   return (
     <>
       {data?.tasks.map((task: Partial<Task>) => (

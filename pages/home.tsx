@@ -72,7 +72,7 @@ const Home: NextPage = () => {
               css={addTask}
             ></input>
           </div>
-          <TaskCards data={data}></TaskCards>
+          <TaskCards data={data} refetch={refetch}></TaskCards>
         </Board>
         <Board>
           <p>task detail & edit</p>
