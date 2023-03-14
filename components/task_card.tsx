@@ -106,7 +106,7 @@ const TaskCards = ({ data }: { data: GetTasksQuery | undefined }) => {
   return (
     <>
       {data?.tasks.map((task: Partial<Task>) => (
-        <TaskCard task={task}></TaskCard>
+        <TaskCard key={task.id} task={task}></TaskCard>
       ))}
     </>
   )
