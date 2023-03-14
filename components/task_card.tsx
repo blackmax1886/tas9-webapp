@@ -12,23 +12,6 @@ import { useState } from 'react'
 import { MouseEvent } from 'react'
 import Image from 'next/image'
 
-const taskCard = css`
-  display: flex;
-  font-size: 1.5rem;
-  align-items: center;
-`
-const checkbox = css`
-  display: none;
-`
-
-const checkboxWrapper = css`
-  display: flex;
-  margin: 1rem;
-  position: relative;
-  width: 1.5rem;
-  align-items: center;
-`
-
 const TaskCard = ({
   task,
   refetch,
@@ -63,6 +46,23 @@ const TaskCard = ({
   const handleDeleteTask = () => {
     deleteTask({ variables: { taskId: task?.id } })
   }
+
+  const taskCard = css`
+    display: flex;
+    font-size: 1.5rem;
+    align-items: center;
+  `
+  const checkbox = css`
+    display: none;
+  `
+
+  const checkboxWrapper = css`
+    display: flex;
+    margin: 1rem;
+    position: relative;
+    width: 1.5rem;
+    align-items: center;
+  `
 
   const checkboxWrapperLabel = css`
     background: none repeat scroll 0 0 #eeeeee;
