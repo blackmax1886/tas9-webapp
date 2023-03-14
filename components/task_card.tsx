@@ -7,7 +7,7 @@ import {
 import { useMutation } from '@apollo/client'
 import { css } from '@emotion/react'
 import { useState } from 'react'
-import { ChangeEvent, MouseEvent } from 'react'
+import { MouseEvent } from 'react'
 import Image from 'next/image'
 
 const taskCard = css`
