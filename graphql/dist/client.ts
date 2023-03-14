@@ -89,6 +89,7 @@ export type PartialAccount = {
 export type Query = {
   __typename?: 'Query';
   subtasks: Array<Subtask>;
+  task: Task;
   tasks: Array<Task>;
   user?: Maybe<User>;
   userByAccount?: Maybe<User>;
@@ -98,6 +99,11 @@ export type Query = {
 
 export type QuerySubtasksArgs = {
   taskId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryTaskArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -174,6 +180,13 @@ export type GetTasksQueryVariables = Exact<{
 
 export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean }> };
 
+export type GetTaskQueryVariables = Exact<{
+  taskId: Scalars['String'];
+}>;
+
+
+export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'Task', name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
+
 export type UpdateTaskIsDoneMutationVariables = Exact<{
   taskId: Scalars['String'];
   isDone: Scalars['Boolean'];
@@ -239,6 +252,21 @@ export const GetTasksDocument = gql`
     query getTasks($userId: String!) {
   tasks(userId: $userId) {
     id
+    name
+    content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
+  }
+}
+    `;
+export const GetTaskDocument = gql`
+    query getTask($taskId: String!) {
+  task(id: $taskId) {
     name
     content
     done
@@ -333,6 +361,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getTasks(variables: GetTasksQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTasksQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetTasksQuery>(GetTasksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTasks', 'query');
+    },
+    getTask(variables: GetTaskQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTaskQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTaskQuery>(GetTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTask', 'query');
     },
     updateTaskIsDone(variables: UpdateTaskIsDoneMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTaskIsDoneMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateTaskIsDoneMutation>(UpdateTaskIsDoneDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateTaskIsDone', 'mutation');

@@ -8,6 +8,8 @@ import {
   GetTasksQuery,
   GetTasksDocument,
   Task,
+  GetTaskQuery,
+  GetTaskDocument,
 } from '../graphql/dist/client'
 import { useSession } from 'next-auth/react'
 import { ContentHeader, Header } from '../components/header'
@@ -35,6 +37,7 @@ const Home: NextPage = () => {
     variables: { userId: session?.user.id },
     skip: status === 'loading',
   })
+  //TODO: rename inputValue
   const [inputValue, setInputValue] = useState('')
   const [createTask] = useMutation<CreateTaskMutation>(CreateTaskDocument, {
     onCompleted() {
@@ -43,6 +46,10 @@ const Home: NextPage = () => {
     },
   })
   const [selectedTaskId, setSelectedTaskId] = useState('')
+  const { data: selected } = useQuery<GetTaskQuery>(GetTaskDocument, {
+    variables: { taskId: selectedTaskId },
+    skip: !selectedTaskId,
+  })
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -86,7 +93,8 @@ const Home: NextPage = () => {
           ></TaskCards>
         </Board>
         <Board>
-          <p>{selectedTaskId}</p>
+          <h1>{selected?.task.name}</h1>
+          <p>{selected?.task.content}</p>
         </Board>
         <Board>
           <p>subtask detail & edit</p>
