@@ -36,3 +36,9 @@ mutation updateTaskIsDone($taskId: String!, $isDone: Boolean!) {
     archived
   }
 }
+
+mutation deleteTask($taskId: String!) {
+  deleteTask(id: $taskId) {
+    id
+  }
+}

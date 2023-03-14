@@ -1,4 +1,6 @@
 import {
+  DeleteTaskDocument,
+  DeleteTaskMutation,
   GetTasksQuery,
   Task,
   UpdateTaskIsDoneDocument,
@@ -32,6 +34,7 @@ const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
   const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
     UpdateTaskIsDoneDocument
   )
+  const [deleteTask] = useMutation<DeleteTaskMutation>(DeleteTaskDocument)
 
   const handleTaskIsDone = (event: MouseEvent<HTMLLabelElement>) => {
     setIsDone(!isDone)
@@ -41,6 +44,9 @@ const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
         isDone: !isDone,
       },
     })
+  }
+  const handleDeleteTask = () => {
+    deleteTask({ variables: { taskId: task?.id } })
   }
 
   const checkboxWrapperLabel = css`
@@ -89,7 +95,7 @@ const TaskCard = ({ task }: { task: Partial<Task> | undefined }) => {
           <label css={checkboxWrapperLabel} onClick={handleTaskIsDone}></label>
         </div>
         <label>{task?.name}</label>
-        <button css={deleteButton}>
+        <button css={deleteButton} onClick={handleDeleteTask}>
           <Image
             src="/delete-button.png"
             alt="delete"
