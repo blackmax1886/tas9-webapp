@@ -38,9 +38,18 @@ const TaskCard = ({
 }) => {
   const [isDone, setIsDone] = useState(task?.done)
   const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
-    UpdateTaskIsDoneDocument
+    UpdateTaskIsDoneDocument,
+    {
+      onCompleted() {
+        refetch()
+      },
+    }
   )
-  const [deleteTask] = useMutation<DeleteTaskMutation>(DeleteTaskDocument)
+  const [deleteTask] = useMutation<DeleteTaskMutation>(DeleteTaskDocument, {
+    onCompleted() {
+      refetch()
+    },
+  })
 
   const handleTaskIsDone = (event: MouseEvent<HTMLLabelElement>) => {
     setIsDone(!isDone)
