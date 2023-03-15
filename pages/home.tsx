@@ -7,7 +7,6 @@ import {
   CreateTaskDocument,
   GetTasksQuery,
   GetTasksDocument,
-  Task,
   GetTaskQuery,
   GetTaskDocument,
 } from '../graphql/dist/client'
