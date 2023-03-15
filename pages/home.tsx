@@ -14,6 +14,7 @@ import { ContentHeader, Header } from '../components/header'
 import Board from '@/components/board'
 import { css } from '@emotion/react'
 import { TaskCards } from '@/components/task_card'
+import { TaskDetail } from '@/components/task_detail'
 
 const container = css`
   display: flex;
@@ -27,16 +28,6 @@ const addTask = css`
   background-color: rgba(26, 24, 29, 0.06);
   width: 100%;
   font-size: 1rem;
-`
-
-const taskDetail = css`
-  flex: 1 0 auto;
-  border: none;
-  outline: none;
-  resize: none;
-  background-color: rgba(26, 24, 29, 0.06);
-  font-size: 1rem;
-  font-family: sans-serif;
 `
 
 const Home: NextPage = () => {
@@ -103,25 +94,7 @@ const Home: NextPage = () => {
           ></TaskCards>
         </Board>
         <Board>
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              height: 100%;
-            `}
-          >
-            <h1>{selected?.task.name}</h1>
-            <div
-              css={css`
-                flex: 1 0 auto;
-                display: flex;
-              `}
-            >
-              <div contentEditable={true} css={taskDetail}>
-                {selected?.task.content}
-              </div>
-            </div>
-          </div>
+          <TaskDetail selectedTask={selected?.task}></TaskDetail>
         </Board>
         <Board>
           <p>subtask detail & edit</p>
