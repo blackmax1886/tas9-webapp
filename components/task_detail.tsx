@@ -1,6 +1,17 @@
 import { Task } from '@/graphql/dist/client'
 import { css } from '@emotion/react'
 
+const taskDetail = css`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
+
+const taskContentWrapper = css`
+  flex: 1 0 auto;
+  display: flex;
+`
+
 const taskContent = css`
   flex: 1 0 auto;
   border: none;
@@ -17,20 +28,9 @@ const TaskDetail = ({
   selectedTask: Partial<Task> | undefined
 }) => {
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      `}
-    >
+    <div css={taskDetail}>
       <h1>{selectedTask?.name}</h1>
-      <div
-        css={css`
-          flex: 1 0 auto;
-          display: flex;
-        `}
-      >
+      <div css={taskContentWrapper}>
         <div contentEditable={true} css={taskContent}>
           {selectedTask?.content}
         </div>
