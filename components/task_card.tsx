@@ -35,7 +35,7 @@ const TaskCard = ({
       refetch()
     },
   })
-
+  //TODO: delete unused event arg
   const handleTaskIsDone = (event: MouseEvent<HTMLLabelElement>) => {
     setIsDone(!isDone)
     updateTaskIsDone({
@@ -45,6 +45,11 @@ const TaskCard = ({
       },
     })
   }
+
+  const handleClickTask = () => {
+    openTaskDetail(task?.id)
+  }
+
   const handleDeleteTask = () => {
     deleteTask({ variables: { taskId: task?.id } })
   }
@@ -115,7 +120,7 @@ const TaskCard = ({
           <input type="checkbox" css={checkbox}></input>
           <label css={checkboxWrapperLabel} onClick={handleTaskIsDone}></label>
         </div>
-        <label css={taskLabel} onClick={() => openTaskDetail(task?.id)}>
+        <label css={taskLabel} onClick={handleClickTask}>
           {task?.name}
         </label>
         <button css={deleteButton} onClick={handleDeleteTask}>
