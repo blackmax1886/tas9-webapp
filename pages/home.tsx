@@ -35,6 +35,8 @@ const textarea = css`
   outline: none;
   resize: none;
   background-color: rgba(26, 24, 29, 0.06);
+  font-size: 1rem;
+  font-family: sans-serif;
 `
 
 const Home: NextPage = () => {
