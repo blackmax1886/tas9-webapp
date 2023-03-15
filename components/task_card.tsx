@@ -9,7 +9,6 @@ import {
 import { useMutation, QueryResult } from '@apollo/client'
 import { css } from '@emotion/react'
 import { useState } from 'react'
-import { MouseEvent } from 'react'
 import Image from 'next/image'
 
 const TaskCard = ({
