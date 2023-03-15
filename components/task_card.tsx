@@ -15,10 +15,12 @@ const TaskCard = ({
   task,
   refetch,
   openTaskDetail,
+  isSelected,
 }: {
   task: Partial<Task> | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
   openTaskDetail: (taskId: string | undefined) => void
+  isSelected: boolean
 }) => {
   const [isDone, setIsDone] = useState(task?.done)
   const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
@@ -58,6 +60,10 @@ const TaskCard = ({
     font-size: 1.5rem;
     align-items: center;
     border: 2px solid white;
+    ${isSelected &&
+    css`
+      border: 2px solid #66bb6a;
+    `}
   `
   const checkbox = css`
     display: none;
@@ -139,10 +145,12 @@ const TaskCards = ({
   data,
   refetch,
   openTaskDetail,
+  selectedTaskId,
 }: {
   data: GetTasksQuery | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
   openTaskDetail: (taskId: string | undefined) => void
+  selectedTaskId: string
 }) => {
   return (
     <>
@@ -152,6 +160,7 @@ const TaskCards = ({
           task={task}
           refetch={refetch}
           openTaskDetail={openTaskDetail}
+          isSelected={task.id === selectedTaskId}
         ></TaskCard>
       ))}
     </>
