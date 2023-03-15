@@ -33,7 +33,6 @@ const heading = css`
   color: #fff;
   text-align: center;
   color: #202124;
-  font-family: 'Google Sans', 'Noto Sans Myanmar UI', arial, sans-serif;
   font-size: 36px;
   font-weight: 400;
 `
