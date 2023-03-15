@@ -35,8 +35,8 @@ const TaskCard = ({
       refetch()
     },
   })
-  //TODO: delete unused event arg
-  const handleTaskIsDone = (event: MouseEvent<HTMLLabelElement>) => {
+
+  const handleTaskIsDone = () => {
     setIsDone(!isDone)
     updateTaskIsDone({
       variables: {
