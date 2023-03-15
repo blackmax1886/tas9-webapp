@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
-import { KeyboardEvent } from 'react'
+import { KeyboardEvent, useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
-
 import {
   CreateTaskMutation,
   CreateTaskDocument,
@@ -13,7 +12,6 @@ import {
 import { useSession } from 'next-auth/react'
 import { ContentHeader, Header } from '../components/header'
 import Board from '@/components/board'
-import { useState } from 'react'
 import { css } from '@emotion/react'
 import { TaskCards } from '@/components/task_card'
 
