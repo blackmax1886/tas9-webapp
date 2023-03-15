@@ -28,6 +28,15 @@ const addTask = css`
   width: 100%;
   font-size: 1rem;
 `
+
+const textarea = css`
+  flex: 1 0 auto;
+  border: none;
+  outline: none;
+  resize: none;
+  background-color: rgba(26, 24, 29, 0.06);
+`
+
 const Home: NextPage = () => {
   const { data: session, status } = useSession()
   const { data, refetch } = useQuery<GetTasksQuery>(GetTasksDocument, {
@@ -92,8 +101,23 @@ const Home: NextPage = () => {
           ></TaskCards>
         </Board>
         <Board>
-          <h1>{selected?.task.name}</h1>
-          <p>{selected?.task.content}</p>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+            `}
+          >
+            <h1>{selected?.task.name}</h1>
+            <div
+              css={css`
+                flex: 1 0 auto;
+                display: flex;
+              `}
+            >
+              <textarea defaultValue="a" css={textarea}></textarea>
+            </div>
+          </div>
         </Board>
         <Board>
           <p>subtask detail & edit</p>
