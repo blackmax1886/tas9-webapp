@@ -56,3 +56,10 @@ mutation deleteTask($taskId: String!) {
     id
   }
 }
+
+mutation updateTaskContent($taskId: String!, $content: String!) {
+  updateTaskContent(id: $taskId, content: $content) {
+    name
+    content
+  }
+}

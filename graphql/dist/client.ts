@@ -28,6 +28,7 @@ export type Mutation = {
   createUser: User;
   deleteTask?: Maybe<Task>;
   linkAccount: User;
+  updateTaskContent: Task;
   updateTaskIsDone: Task;
 };
 
@@ -54,6 +55,12 @@ export type MutationDeleteTaskArgs = {
 
 export type MutationLinkAccountArgs = {
   input?: InputMaybe<Account>;
+};
+
+
+export type MutationUpdateTaskContentArgs = {
+  content: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
@@ -202,6 +209,14 @@ export type DeleteTaskMutationVariables = Exact<{
 
 export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typename?: 'Task', id: string } | null };
 
+export type UpdateTaskContentMutationVariables = Exact<{
+  taskId: Scalars['String'];
+  content: Scalars['String'];
+}>;
+
+
+export type UpdateTaskContentMutation = { __typename?: 'Mutation', updateTaskContent: { __typename?: 'Task', name: string, content?: string | null } };
+
 export type GetUserByEmailQueryVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -302,6 +317,14 @@ export const DeleteTaskDocument = gql`
   }
 }
     `;
+export const UpdateTaskContentDocument = gql`
+    mutation updateTaskContent($taskId: String!, $content: String!) {
+  updateTaskContent(id: $taskId, content: $content) {
+    name
+    content
+  }
+}
+    `;
 export const GetUserByEmailDocument = gql`
     query getUserByEmail($email: String!) {
   userByEmail(email: $email) {
@@ -370,6 +393,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     deleteTask(variables: DeleteTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteTaskMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteTaskMutation>(DeleteTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteTask', 'mutation');
+    },
+    updateTaskContent(variables: UpdateTaskContentMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTaskContentMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateTaskContentMutation>(UpdateTaskContentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateTaskContent', 'mutation');
     },
     getUserByEmail(variables: GetUserByEmailQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserByEmailQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserByEmailQuery>(GetUserByEmailDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserByEmail', 'query');
