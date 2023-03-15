@@ -16,11 +16,13 @@ const TaskCard = ({
   refetch,
   openTaskDetail,
   isSelected,
+  setSelectedTaskId,
 }: {
   task: Partial<Task> | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
   openTaskDetail: (taskId: string | undefined) => void
   isSelected: boolean
+  setSelectedTaskId: (taskId: string) => void
 }) => {
   const [isDone, setIsDone] = useState(task?.done)
   const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
@@ -53,6 +55,9 @@ const TaskCard = ({
 
   const handleDeleteTask = () => {
     deleteTask({ variables: { taskId: task?.id } })
+    if (isSelected) {
+      setSelectedTaskId('')
+    }
   }
 
   const taskCard = css`
@@ -146,11 +151,13 @@ const TaskCards = ({
   refetch,
   openTaskDetail,
   selectedTaskId,
+  setSelectedTaskId,
 }: {
   data: GetTasksQuery | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
   openTaskDetail: (taskId: string | undefined) => void
   selectedTaskId: string
+  setSelectedTaskId: (taskId: string) => void
 }) => {
   return (
     <>
@@ -161,6 +168,7 @@ const TaskCards = ({
           refetch={refetch}
           openTaskDetail={openTaskDetail}
           isSelected={task.id === selectedTaskId}
+          setSelectedTaskId={setSelectedTaskId}
         ></TaskCard>
       ))}
     </>

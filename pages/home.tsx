@@ -90,6 +90,7 @@ const Home: NextPage = () => {
             refetch={refetch}
             openTaskDetail={openTaskDetail}
             selectedTaskId={selectedTaskId}
+            setSelectedTaskId={setSelectedTaskId}
           ></TaskCards>
         </Board>
         <Board>
