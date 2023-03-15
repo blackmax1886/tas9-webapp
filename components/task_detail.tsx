@@ -18,6 +18,7 @@ const taskContent = css`
   outline: none;
   resize: none;
   background-color: rgba(26, 24, 29, 0.06);
+  padding: 1rem;
 `
 
 const TaskDetail = ({
