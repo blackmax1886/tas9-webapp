@@ -29,7 +29,7 @@ const addTask = css`
   font-size: 1rem;
 `
 
-const textarea = css`
+const taskDetail = css`
   flex: 1 0 auto;
   border: none;
   outline: none;
@@ -117,7 +117,9 @@ const Home: NextPage = () => {
                 display: flex;
               `}
             >
-              <textarea defaultValue="a" css={textarea}></textarea>
+              <div contentEditable={true} css={taskDetail}>
+                {selected?.task.content}
+              </div>
             </div>
           </div>
         </Board>
