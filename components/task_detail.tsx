@@ -6,6 +6,7 @@ import {
 } from '@/graphql/dist/client'
 import { useMutation } from '@apollo/client'
 import { useState, FormEvent, useEffect } from 'react'
+import ContentEditable from 'react-contenteditable'
 
 const taskDetail = css`
   display: flex;
@@ -58,13 +59,11 @@ const TaskDetail = ({
     <div css={taskDetail}>
       <h1>{selectedTask?.name}</h1>
       <div css={taskContentWrapper}>
-        <div
-          contentEditable={true}
+        <ContentEditable
+          html={content}
+          onChange={handleChangeTaskContent}
           css={taskContent}
-          onInput={handleChangeTaskContent}
-        >
-          {content}
-        </div>
+        ></ContentEditable>
       </div>
     </div>
   )
