@@ -42,18 +42,23 @@ const TaskDetail = ({
     setContent(selectedTask?.content || '')
   }, [selectedTask])
 
-  // useEffect(() => {
-  //   if (selectedTask && selectedTask?.content !== content) {
-  //     updateTaskContent({
-  //       variables: { taskId: selectedTask?.id, content: content },
-  //     })
-  //   }
-  // }, [content, selectedTask])
+  const [isContentModified, setIsContentModified] = useState(false)
+  useEffect(() => {
+    if (isContentModified) {
+      const saveContentTimeout = setTimeout(() => {
+        updateTaskContent({
+          variables: { taskId: selectedTask?.id, content: content },
+        })
+      }, 5000)
+      return () => {
+        clearTimeout(saveContentTimeout)
+        setIsContentModified(false)
+      }
+    }
+  }, [isContentModified])
   const handleChangeTaskContent = (event: FormEvent<HTMLInputElement>) => {
     setContent(event.currentTarget.textContent || '')
-    updateTaskContent({
-      variables: { taskId: selectedTask?.id, content: content },
-    })
+    setIsContentModified(true)
   }
   return (
     <div css={taskDetail}>
