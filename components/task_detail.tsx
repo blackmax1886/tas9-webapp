@@ -1,5 +1,11 @@
 import { Task } from '@/graphql/dist/client'
 import { css } from '@emotion/react'
+import {
+  UpdateTaskContentMutation,
+  UpdateTaskContentDocument,
+} from '@/graphql/dist/client'
+import { useMutation } from '@apollo/client'
+import { useState, FormEvent, useEffect } from 'react'
 
 const taskDetail = css`
   display: flex;
@@ -26,12 +32,38 @@ const TaskDetail = ({
 }: {
   selectedTask: Partial<Task> | undefined
 }) => {
+  const [content, setContent] = useState('')
+  const [updateTaskContent] = useMutation<UpdateTaskContentMutation>(
+    UpdateTaskContentDocument
+  )
+  // show content of selected task
+  useEffect(() => {
+    setContent(selectedTask?.content || '')
+  }, [selectedTask])
+
+  // useEffect(() => {
+  //   if (selectedTask && selectedTask?.content !== content) {
+  //     updateTaskContent({
+  //       variables: { taskId: selectedTask?.id, content: content },
+  //     })
+  //   }
+  // }, [content, selectedTask])
+  const handleChangeTaskContent = (event: FormEvent<HTMLInputElement>) => {
+    setContent(event.currentTarget.textContent || '')
+    updateTaskContent({
+      variables: { taskId: selectedTask?.id, content: content },
+    })
+  }
   return (
     <div css={taskDetail}>
       <h1>{selectedTask?.name}</h1>
       <div css={taskContentWrapper}>
-        <div contentEditable={true} css={taskContent}>
-          {selectedTask?.content}
+        <div
+          contentEditable={true}
+          css={taskContent}
+          onInput={handleChangeTaskContent}
+        >
+          {content}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { KeyboardEvent, useState } from 'react'
+import { KeyboardEvent, useEffect, useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import {
   CreateTaskMutation,
@@ -45,10 +45,15 @@ const Home: NextPage = () => {
     },
   })
   const [selectedTaskId, setSelectedTaskId] = useState('')
-  const { data: selected } = useQuery<GetTaskQuery>(GetTaskDocument, {
-    variables: { taskId: selectedTaskId },
-    skip: !selectedTaskId,
-  })
+  const { data: selected, refetch: refetchSelectedTask } =
+    useQuery<GetTaskQuery>(GetTaskDocument, {
+      variables: { taskId: selectedTaskId },
+      skip: !selectedTaskId,
+    })
+  useEffect(() => {
+    refetchSelectedTask()
+    //TODO: update TaskDetail Component
+  }, [selectedTaskId])
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
