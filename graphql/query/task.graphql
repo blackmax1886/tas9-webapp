@@ -24,6 +24,7 @@ query getTasks($userId: String!) {
 
 query getTask($taskId: String!) {
   task(id: $taskId) {
+    id
     name
     content
     done

@@ -192,7 +192,7 @@ export type GetTaskQueryVariables = Exact<{
 }>;
 
 
-export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'Task', name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
+export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
 
 export type UpdateTaskIsDoneMutationVariables = Exact<{
   taskId: Scalars['String'];
@@ -282,6 +282,7 @@ export const GetTasksDocument = gql`
 export const GetTaskDocument = gql`
     query getTask($taskId: String!) {
   task(id: $taskId) {
+    id
     name
     content
     done
