@@ -99,7 +99,12 @@ const Home: NextPage = () => {
           ></TaskCards>
         </Board>
         <Board>
-          {selected && <TaskDetail selectedTask={selected.task}></TaskDetail>}
+          {selected && (
+            <TaskDetail
+              selectedTask={selected.task}
+              key={selected.task.id}
+            ></TaskDetail>
+          )}
         </Board>
         <Board>
           <p>subtask detail & edit</p>

@@ -5,7 +5,7 @@ import {
   UpdateTaskContentDocument,
 } from '@/graphql/dist/client'
 import { useMutation } from '@apollo/client'
-import { useState, FormEvent, useEffect } from 'react'
+import { KeyboardEvent, useState, ChangeEvent, useEffect, useRef } from 'react'
 import ContentEditable from 'react-contenteditable'
 
 const taskDetail = css`
@@ -26,49 +26,72 @@ const taskContent = css`
   resize: none;
   background-color: rgba(26, 24, 29, 0.06);
   padding: 1rem;
+  white-space: pre-wrap;
+  font-size: 1rem;
 `
 
-const TaskDetail = ({
-  selectedTask,
-}: {
-  selectedTask: Partial<Task> | undefined
-}) => {
-  const [content, setContent] = useState('')
+const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
+  const [content, setContent] = useState(selectedTask.content || '')
+  const isMounted = useRef(false)
   const [updateTaskContent] = useMutation<UpdateTaskContentMutation>(
     UpdateTaskContentDocument
   )
-  // show content of selected task
-  useEffect(() => {
-    setContent(selectedTask?.content || '')
-  }, [selectedTask])
 
-  const [isContentModified, setIsContentModified] = useState(false)
   useEffect(() => {
-    if (isContentModified) {
-      const saveContentTimeout = setTimeout(() => {
-        updateTaskContent({
-          variables: { taskId: selectedTask?.id, content: content },
-        })
-      }, 5000)
-      return () => {
-        clearTimeout(saveContentTimeout)
-        setIsContentModified(false)
-      }
+    if (isMounted.current) {
+      console.log('content useEffect')
+      updateTaskContent({
+        variables: { taskId: selectedTask.id, content: content },
+      })
+      return
+      // const timeoutId = setTimeout(
+      //   () =>
+      //     updateTaskContent({
+      //       variables: { taskId: selectedTask?.id, content: content },
+      //     }),
+      //   1000
+      // )
+      // return clearTimeout(timeoutId)
     }
-  }, [isContentModified])
-  const handleChangeTaskContent = (event: FormEvent<HTMLInputElement>) => {
-    setContent(event.currentTarget.textContent || '')
-    setIsContentModified(true)
+    isMounted.current = true
+  }, [content])
+
+  // useEffect(() => {
+  //   if (isContentModified) {
+  //     console.log(isContentModified.current)
+  //     console.log('update start')
+  //     const timeoutId = setTimeout(
+  //       () =>
+  //         updateTaskContent({
+  //           variables: { taskId: selectedTask?.id, content: content },
+  //         }),
+  //       1000
+  //     )
+  //     isContentModified.current = false
+  //     return clearTimeout(timeoutId)
+  //   }
+  // }, [isContentModified])
+
+  const handleChangeTaskContent = (event: ChangeEvent<HTMLInputElement>) => {
+    setContent(event.target.value || '')
+    console.log('onChange')
   }
+
   return (
     <div css={taskDetail}>
       <h1>{selectedTask?.name}</h1>
       <div css={taskContentWrapper}>
-        <ContentEditable
+        <input
+          css={taskContent}
+          value={content}
+          onChange={handleChangeTaskContent}
+        ></input>
+        {/* <ContentEditable
           html={content}
           onChange={handleChangeTaskContent}
+          onKeyPress={handleKeyDown}
           css={taskContent}
-        ></ContentEditable>
+        ></ContentEditable> */}
       </div>
     </div>
   )

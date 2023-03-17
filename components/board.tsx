@@ -10,7 +10,11 @@ const board = css`
   width: 33%;
   margin: 1rem;
 `
-const Board = ({ children }: { children: ReactElement | ReactElement[] }) => {
+const Board = ({
+  children,
+}: {
+  children: ReactElement | ReactElement[] | undefined
+}) => {
   return <div css={board}>{children}</div>
 }
 
