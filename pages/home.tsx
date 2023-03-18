@@ -49,10 +49,10 @@ const Home: NextPage = () => {
     useQuery<GetTaskQuery>(GetTaskDocument, {
       variables: { taskId: selectedTaskId },
       skip: !selectedTaskId,
+      fetchPolicy: 'network-only',
     })
   useEffect(() => {
     refetchSelectedTask()
-    //TODO: update TaskDetail Component
   }, [selectedTaskId])
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
