@@ -39,42 +39,26 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
 
   useEffect(() => {
     if (isMounted.current) {
-      console.log('content useEffect')
-      updateTaskContent({
-        variables: { taskId: selectedTask.id, content: content },
-      })
-      return
-      // const timeoutId = setTimeout(
-      //   () =>
-      //     updateTaskContent({
-      //       variables: { taskId: selectedTask?.id, content: content },
-      //     }),
-      //   1000
-      // )
-      // return clearTimeout(timeoutId)
+      console.log('content useEffect with :' + content)
+      const timeoutId = setTimeout(() => {
+        updateTaskContent({
+          variables: { taskId: selectedTask?.id, content: content },
+        })
+        console.log('run update')
+      }, 5000)
+      console.log(timeoutId)
+      return () => {
+        console.log('run cleanup')
+        clearTimeout(timeoutId)
+      }
     }
+    console.log(isMounted.current)
     isMounted.current = true
   }, [content])
 
-  // useEffect(() => {
-  //   if (isContentModified) {
-  //     console.log(isContentModified.current)
-  //     console.log('update start')
-  //     const timeoutId = setTimeout(
-  //       () =>
-  //         updateTaskContent({
-  //           variables: { taskId: selectedTask?.id, content: content },
-  //         }),
-  //       1000
-  //     )
-  //     isContentModified.current = false
-  //     return clearTimeout(timeoutId)
-  //   }
-  // }, [isContentModified])
-
   const handleChangeTaskContent = (event: ChangeEvent<HTMLInputElement>) => {
     setContent(event.target.value || '')
-    console.log('onChange')
+    console.log('onChange with :' + content)
   }
 
   return (
