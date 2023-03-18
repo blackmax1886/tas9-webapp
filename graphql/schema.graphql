@@ -45,6 +45,7 @@ type Query {
   subtasks(taskId: String): [Subtask!]!
   userByEmail(email: String!): User
   userByAccount(partialAccount: PartialAccount!): User
+  task(id: String!): Task!
 }
 
 input NewUser {
@@ -82,4 +83,7 @@ type Mutation {
   createTask(input: NewTask!): Task!
   createSubTask(input: NewSubtask!): Subtask!
   linkAccount(input: Account): User!
+  updateTaskIsDone(id: String!, isDone: Boolean!): Task!
+  deleteTask(id: String!): Task
+  updateTaskContent(id: String!, content: String!): Task!
 }

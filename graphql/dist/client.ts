@@ -26,7 +26,10 @@ export type Mutation = {
   createSubTask: Subtask;
   createTask: Task;
   createUser: User;
+  deleteTask?: Maybe<Task>;
   linkAccount: User;
+  updateTaskContent: Task;
+  updateTaskIsDone: Task;
 };
 
 
@@ -45,8 +48,25 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationDeleteTaskArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationLinkAccountArgs = {
   input?: InputMaybe<Account>;
+};
+
+
+export type MutationUpdateTaskContentArgs = {
+  content: Scalars['String'];
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateTaskIsDoneArgs = {
+  id: Scalars['String'];
+  isDone: Scalars['Boolean'];
 };
 
 export type NewSubtask = {
@@ -76,6 +96,7 @@ export type PartialAccount = {
 export type Query = {
   __typename?: 'Query';
   subtasks: Array<Subtask>;
+  task: Task;
   tasks: Array<Task>;
   user?: Maybe<User>;
   userByAccount?: Maybe<User>;
@@ -85,6 +106,11 @@ export type Query = {
 
 export type QuerySubtasksArgs = {
   taskId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryTaskArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -159,7 +185,37 @@ export type GetTasksQueryVariables = Exact<{
 }>;
 
 
-export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null }> };
+export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean }> };
+
+export type GetTaskQueryVariables = Exact<{
+  taskId: Scalars['String'];
+}>;
+
+
+export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
+
+export type UpdateTaskIsDoneMutationVariables = Exact<{
+  taskId: Scalars['String'];
+  isDone: Scalars['Boolean'];
+}>;
+
+
+export type UpdateTaskIsDoneMutation = { __typename?: 'Mutation', updateTaskIsDone: { __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
+
+export type DeleteTaskMutationVariables = Exact<{
+  taskId: Scalars['String'];
+}>;
+
+
+export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typename?: 'Task', id: string } | null };
+
+export type UpdateTaskContentMutationVariables = Exact<{
+  taskId: Scalars['String'];
+  content: Scalars['String'];
+}>;
+
+
+export type UpdateTaskContentMutation = { __typename?: 'Mutation', updateTaskContent: { __typename?: 'Task', name: string, content?: string | null } };
 
 export type GetUserByEmailQueryVariables = Exact<{
   email: Scalars['String'];
@@ -211,6 +267,60 @@ export const GetTasksDocument = gql`
     query getTasks($userId: String!) {
   tasks(userId: $userId) {
     id
+    name
+    content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
+  }
+}
+    `;
+export const GetTaskDocument = gql`
+    query getTask($taskId: String!) {
+  task(id: $taskId) {
+    id
+    name
+    content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
+  }
+}
+    `;
+export const UpdateTaskIsDoneDocument = gql`
+    mutation updateTaskIsDone($taskId: String!, $isDone: Boolean!) {
+  updateTaskIsDone(id: $taskId, isDone: $isDone) {
+    id
+    name
+    content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
+  }
+}
+    `;
+export const DeleteTaskDocument = gql`
+    mutation deleteTask($taskId: String!) {
+  deleteTask(id: $taskId) {
+    id
+  }
+}
+    `;
+export const UpdateTaskContentDocument = gql`
+    mutation updateTaskContent($taskId: String!, $content: String!) {
+  updateTaskContent(id: $taskId, content: $content) {
     name
     content
   }
@@ -275,6 +385,18 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getTasks(variables: GetTasksQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTasksQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetTasksQuery>(GetTasksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTasks', 'query');
+    },
+    getTask(variables: GetTaskQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTaskQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTaskQuery>(GetTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTask', 'query');
+    },
+    updateTaskIsDone(variables: UpdateTaskIsDoneMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTaskIsDoneMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateTaskIsDoneMutation>(UpdateTaskIsDoneDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateTaskIsDone', 'mutation');
+    },
+    deleteTask(variables: DeleteTaskMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteTaskMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteTaskMutation>(DeleteTaskDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteTask', 'mutation');
+    },
+    updateTaskContent(variables: UpdateTaskContentMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTaskContentMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateTaskContentMutation>(UpdateTaskContentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateTaskContent', 'mutation');
     },
     getUserByEmail(variables: GetUserByEmailQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserByEmailQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserByEmailQuery>(GetUserByEmailDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserByEmail', 'query');

@@ -12,5 +12,55 @@ query getTasks($userId: String!) {
     id
     name
     content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
+  }
+}
+
+query getTask($taskId: String!) {
+  task(id: $taskId) {
+    id
+    name
+    content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
+  }
+}
+
+mutation updateTaskIsDone($taskId: String!, $isDone: Boolean!) {
+  updateTaskIsDone(id: $taskId, isDone: $isDone) {
+    id
+    name
+    content
+    done
+    due
+    assigned_at
+    group
+    type
+    priority
+    archived
+  }
+}
+
+mutation deleteTask($taskId: String!) {
+  deleteTask(id: $taskId) {
+    id
+  }
+}
+
+mutation updateTaskContent($taskId: String!, $content: String!) {
+  updateTaskContent(id: $taskId, content: $content) {
+    name
+    content
   }
 }

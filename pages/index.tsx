@@ -8,7 +8,7 @@ const Button = css`
   color: white;
   padding: 0.5rem;
   text-align: center;
-  font-size: 1rem;
+  font-size: inherit;
   border-radius: 0.25rem;
 `
 
@@ -27,14 +27,13 @@ const card = css`
 `
 
 const heading = css`
-  font-family: sans-serif;
+  font-family: inherit;
   margin: 0px 0 -0.125rem;
   padding: 0;
   color: #fff;
   text-align: center;
   color: #202124;
-  font-family: 'Google Sans', 'Noto Sans Myanmar UI', arial, sans-serif;
-  font-size: 36px;
+  font-size: 3rem;
   font-weight: 400;
 `
 
