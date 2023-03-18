@@ -27,7 +27,7 @@ const addTask = css`
   border-radius: 2px;
   background-color: rgba(26, 24, 29, 0.06);
   width: 100%;
-  font-size: 1rem;
+  font-size: inherit;
 `
 
 const Home: NextPage = () => {
