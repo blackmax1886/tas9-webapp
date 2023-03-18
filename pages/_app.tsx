@@ -4,10 +4,18 @@ import { ApolloProvider } from '@apollo/client'
 import { SessionProvider } from 'next-auth/react'
 import { RootLayout, GuardLayout } from '../components/layouts'
 import { NextComponentType } from 'next'
+import { css, Global } from '@emotion/react'
 
 type CustomAppProps = AppProps & {
   Component: NextComponentType & { isRootPage?: boolean }
 }
+
+const global = css`
+  body {
+    font-family: sans-serif;
+    font-size: 1rem;
+  }
+`
 
 function MyApp({
   Component,
@@ -28,6 +36,7 @@ function MyApp({
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
         <LayoutComponent>
+          <Global styles={global} />
           <Component {...pageProps} />
         </LayoutComponent>
       </ApolloProvider>
