@@ -5,8 +5,7 @@ import {
   UpdateTaskContentDocument,
 } from '@/graphql/dist/client'
 import { useMutation } from '@apollo/client'
-import { KeyboardEvent, useState, ChangeEvent, useEffect, useRef } from 'react'
-import ContentEditable from 'react-contenteditable'
+import { useState, ChangeEvent, useEffect, useRef } from 'react'
 
 const taskDetail = css`
   display: flex;
@@ -26,8 +25,8 @@ const taskContent = css`
   resize: none;
   background-color: rgba(26, 24, 29, 0.06);
   padding: 1rem;
-  white-space: pre-wrap;
-  font-size: 1rem;
+  font-size: inherit;
+  font-family: inherit;
 `
 
 const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
@@ -56,7 +55,7 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
     isMounted.current = true
   }, [content])
 
-  const handleChangeTaskContent = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeTaskContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value || '')
     console.log('onChange with :' + content)
   }
@@ -65,17 +64,11 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
     <div css={taskDetail}>
       <h1>{selectedTask?.name}</h1>
       <div css={taskContentWrapper}>
-        <input
+        <textarea
           css={taskContent}
           value={content}
           onChange={handleChangeTaskContent}
-        ></input>
-        {/* <ContentEditable
-          html={content}
-          onChange={handleChangeTaskContent}
-          onKeyPress={handleKeyDown}
-          css={taskContent}
-        ></ContentEditable> */}
+        ></textarea>
       </div>
     </div>
   )
