@@ -5,7 +5,8 @@ import {
   UpdateTaskContentDocument,
 } from '@/graphql/dist/client'
 import { useMutation } from '@apollo/client'
-import { useState, ChangeEvent, useEffect, useRef } from 'react'
+import { useState, ChangeEvent, useEffect, useRef, use } from 'react'
+import { useUpdateEffect } from 'react-use'
 
 const taskDetail = css`
   display: flex;
@@ -31,33 +32,25 @@ const taskContent = css`
 
 const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
   const [content, setContent] = useState(selectedTask.content || '')
-  const isMounted = useRef(false)
   const [updateTaskContent] = useMutation<UpdateTaskContentMutation>(
     UpdateTaskContentDocument
   )
 
-  useEffect(() => {
-    if (isMounted.current) {
-      console.log('content useEffect with :' + content)
-      const timeoutId = setTimeout(() => {
-        updateTaskContent({
-          variables: { taskId: selectedTask?.id, content: content },
-        })
-        console.log('run update')
-      }, 5000)
-      console.log(timeoutId)
-      return () => {
-        console.log('run cleanup')
-        clearTimeout(timeoutId)
-      }
+  useUpdateEffect(() => {
+    const timeoutId = setTimeout(() => {
+      updateTaskContent({
+        variables: { taskId: selectedTask?.id, content: content },
+      })
+      console.log('run update')
+    }, 5000)
+    return () => {
+      console.log('run cleanup')
+      clearTimeout(timeoutId)
     }
-    console.log(isMounted.current)
-    isMounted.current = true
   }, [content])
 
   const handleChangeTaskContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value || '')
-    console.log('onChange with :' + content)
   }
 
   return (
