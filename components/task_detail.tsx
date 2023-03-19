@@ -32,6 +32,7 @@ const taskContent = css`
 
 const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
   const [content, setContent] = useState(selectedTask.content || '')
+  const [isSaved, setIsSaved] = useState(true)
   const [updateTaskContent] = useMutation<UpdateTaskContentMutation>(
     UpdateTaskContentDocument
   )
@@ -42,6 +43,7 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
         variables: { taskId: selectedTask?.id, content: content },
       })
       console.log('run update')
+      setIsSaved(true)
     }, 3000)
     return () => {
       console.log('run cleanup')
@@ -50,6 +52,7 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
   }, [content])
 
   const handleChangeTaskContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setIsSaved(false)
     setContent(event.target.value || '')
   }
 
@@ -63,6 +66,7 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
           onChange={handleChangeTaskContent}
         ></textarea>
       </div>
+      <div>{isSaved ? 'saved' : 'saving...'}</div>
     </div>
   )
 }
