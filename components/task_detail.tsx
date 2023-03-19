@@ -14,6 +14,10 @@ const taskDetail = css`
   height: 100%;
 `
 
+const taskName = css`
+  overflow-wrap: break-word;
+`
+
 const taskContentWrapper = css`
   flex: 1 0 auto;
   display: flex;
@@ -58,7 +62,7 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
 
   return (
     <div css={taskDetail}>
-      <h1>{selectedTask?.name}</h1>
+      <h1 css={taskName}>{selectedTask?.name}</h1>
       <div css={taskContentWrapper}>
         <textarea
           css={taskContent}
