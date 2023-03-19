@@ -11,6 +11,7 @@ import { ContentHeader, Header } from '../components/header'
 import Board from '@/components/board'
 import { css } from '@emotion/react'
 import { MovableTaskCards } from '@/components/task_card'
+import Calendar from '@/components/calendar'
 
 const container = css`
   display: flex;
@@ -57,8 +58,8 @@ const TimeTable = () => {
 
   return (
     <div style={{ margin: '0 auto', width: '1600px' }}>
-      <Header></Header>
-      <ContentHeader selected="Timetable"></ContentHeader>
+      <Header />
+      <ContentHeader selected="Timetable" />
       <div css={container}>
         <Board>
           <div>
@@ -73,6 +74,7 @@ const TimeTable = () => {
           </div>
           <MovableTaskCards data={data} refetch={refetch}></MovableTaskCards>
         </Board>
+        <Calendar />
       </div>
     </div>
   )
