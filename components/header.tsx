@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import { signOut } from 'next-auth/react'
+import Link from 'next/link'
 
 const header = css`
   display: flex;
@@ -50,6 +51,7 @@ const tab = css`
   color: #16a2d7;
   font-size: 1rem;
   border-bottom: 2px solid transparent;
+  text-decoration: none;
 `
 const selectedTab = css`
   ${tab}
@@ -59,8 +61,12 @@ const selectedTab = css`
 const ContentHeader = () => {
   return (
     <div css={tabs}>
-      <div css={selectedTab}>Task Manager</div>
-      <div css={tab}>Timetable</div>
+      <Link href="/home" css={selectedTab}>
+        Task Manager
+      </Link>
+      <Link href="/timetable" css={tab}>
+        Timetable
+      </Link>
     </div>
   )
 }
