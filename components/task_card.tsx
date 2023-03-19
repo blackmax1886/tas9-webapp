@@ -116,6 +116,8 @@ const TaskCard = ({
 
   const taskLabel = css`
     flex: 1 0 auto;
+    max-width: 80%;
+    overflow-wrap: break-word;
   `
 
   const deleteButton = css`
