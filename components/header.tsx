@@ -53,18 +53,20 @@ const tab = css`
   border-bottom: 2px solid transparent;
   text-decoration: none;
 `
-const selectedTab = css`
+const activeTab = css`
   ${tab}
   border-bottom-color: #4ebbe4;
 `
 
-const ContentHeader = () => {
+const ContentHeader = ({ selected }: { selected: string }) => {
+  const TaskManagerTab = selected === 'TaskManager' ? activeTab : tab
+  const TimetableTab = selected === 'Timetable' ? activeTab : tab
   return (
     <div css={tabs}>
-      <Link href="/home" css={selectedTab}>
+      <Link href="/home" css={TaskManagerTab}>
         Task Manager
       </Link>
-      <Link href="/timetable" css={tab}>
+      <Link href="/timetable" css={TimetableTab}>
         Timetable
       </Link>
     </div>

@@ -5,7 +5,7 @@ const TimeTable = () => {
   return (
     <div style={{ margin: '0 auto', width: '1600px' }}>
       <Header></Header>
-      <ContentHeader></ContentHeader>
+      <ContentHeader selected="Timetable"></ContentHeader>
     </div>
   )
 }

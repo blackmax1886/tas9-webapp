@@ -78,7 +78,7 @@ const Home: NextPage = () => {
   return (
     <div style={{ margin: '0 auto', width: '1600px' }}>
       <Header></Header>
-      <ContentHeader></ContentHeader>
+      <ContentHeader selected="TaskManager"></ContentHeader>
       <div css={container}>
         <Board>
           <div>
