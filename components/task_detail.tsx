@@ -42,7 +42,7 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
         variables: { taskId: selectedTask?.id, content: content },
       })
       console.log('run update')
-    }, 5000)
+    }, 3000)
     return () => {
       console.log('run cleanup')
       clearTimeout(timeoutId)
