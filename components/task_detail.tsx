@@ -7,6 +7,7 @@ import {
 import { useMutation } from '@apollo/client'
 import { useState, ChangeEvent, useEffect, useRef, use } from 'react'
 import { useUpdateEffect } from 'react-use'
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 
 const taskDetail = css`
   display: flex;
@@ -55,7 +56,7 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
     }
   }, [content])
 
-  const handleChangeTaskContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeTaskContent = (event: ContentEditableEvent) => {
     setIsSaved(false)
     setContent(event.target.value || '')
   }
@@ -64,11 +65,11 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
     <div css={taskDetail}>
       <h1 css={taskName}>{selectedTask?.name}</h1>
       <div css={taskContentWrapper}>
-        <textarea
+        <ContentEditable
           css={taskContent}
-          value={content}
+          html={content}
           onChange={handleChangeTaskContent}
-        ></textarea>
+        />
       </div>
       <div>{isSaved ? 'saved' : 'saving...'}</div>
     </div>
