@@ -18,6 +18,7 @@ import { TaskDetail } from '@/components/task_detail'
 
 const container = css`
   display: flex;
+  min-height: 800px;
 `
 const addTask = css`
   box-sizing: border-box;
