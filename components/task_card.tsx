@@ -276,7 +276,7 @@ const MovableTaskCard = ({
 
   return (
     <>
-      <div key={task?.id} css={taskCard}>
+      <div key={task?.id} draggable={true} css={taskCard}>
         <div css={checkboxWrapper}>
           <input type="checkbox" css={checkbox}></input>
           <label css={checkboxWrapperLabel} onClick={handleTaskIsDone}></label>
