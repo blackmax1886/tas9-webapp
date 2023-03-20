@@ -28,6 +28,13 @@ const addTask = css`
   font-size: inherit;
 `
 
+const calendarWrapper = css`
+  width: 67%;
+  margin: 1rem;
+  padding: 8px;
+  padding-bottom: 30px;
+`
+
 const TimeTable = () => {
   const { data: session, status } = useSession()
   const { data, refetch } = useQuery<GetTasksQuery>(GetTasksDocument, {
@@ -74,7 +81,9 @@ const TimeTable = () => {
           </div>
           <MovableTaskCards data={data} refetch={refetch}></MovableTaskCards>
         </Board>
-        <Calendar />
+        <div css={calendarWrapper}>
+          <Calendar />
+        </div>
       </div>
     </div>
   )
