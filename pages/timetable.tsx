@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react'
 import { ContentHeader, Header } from '../components/header'
 import Board from '@/components/board'
 import { css } from '@emotion/react'
-import { MovableTaskCards } from '@/components/task_card'
+import { DraggableTaskCards } from '@/components/task_card'
 import Calendar from '@/components/calendar'
 
 const container = css`
@@ -79,7 +79,10 @@ const TimeTable = () => {
               css={addTask}
             ></input>
           </div>
-          <MovableTaskCards data={data} refetch={refetch}></MovableTaskCards>
+          <DraggableTaskCards
+            data={data}
+            refetch={refetch}
+          ></DraggableTaskCards>
         </Board>
         <div css={calendarWrapper}>
           <Calendar />

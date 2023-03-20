@@ -177,7 +177,7 @@ const TaskCards = ({
   )
 }
 
-const MovableTaskCard = ({
+const DraggableTaskCard = ({
   task,
   refetch,
 }: {
@@ -295,7 +295,7 @@ const MovableTaskCard = ({
   )
 }
 
-const MovableTaskCards = ({
+const DraggableTaskCards = ({
   data,
   refetch,
 }: {
@@ -305,14 +305,14 @@ const MovableTaskCards = ({
   return (
     <>
       {data?.tasks.map((task: Partial<Task>) => (
-        <MovableTaskCard
+        <DraggableTaskCard
           key={task.id}
           task={task}
           refetch={refetch}
-        ></MovableTaskCard>
+        ></DraggableTaskCard>
       ))}
     </>
   )
 }
 
-export { TaskCard, TaskCards, MovableTaskCard, MovableTaskCards }
+export { TaskCard, TaskCards, DraggableTaskCard, DraggableTaskCards }
