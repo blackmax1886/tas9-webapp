@@ -20,6 +20,7 @@ const Calendar = () => {
         //   events={myEventsList}
         startAccessor="start"
         endAccessor="end"
+        defaultView="day"
         css={calendar}
       />
     </div>
