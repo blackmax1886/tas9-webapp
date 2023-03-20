@@ -11,6 +11,29 @@ import { css } from '@emotion/react'
 import { useState } from 'react'
 import Image from 'next/image'
 
+const checkbox = css`
+  display: none;
+`
+
+const checkboxWrapper = css`
+  display: flex;
+  margin: 1rem;
+  position: relative;
+  width: 1.5rem;
+  align-items: center;
+`
+
+const taskLabel = css`
+  flex: 1 0 auto;
+  max-width: 80%;
+  overflow-wrap: break-word;
+`
+
+const deleteButton = css`
+  background: transparent;
+  border: none;
+`
+
 const TaskCard = ({
   task,
   refetch,
@@ -70,17 +93,6 @@ const TaskCard = ({
       border: 2px solid #66bb6a;
     `}
   `
-  const checkbox = css`
-    display: none;
-  `
-
-  const checkboxWrapper = css`
-    display: flex;
-    margin: 1rem;
-    position: relative;
-    width: 1.5rem;
-    align-items: center;
-  `
 
   const checkboxWrapperLabel = css`
     background: none repeat scroll 0 0 #eeeeee;
@@ -112,17 +124,6 @@ const TaskCard = ({
         opacity: 1;
       }
     `}
-  `
-
-  const taskLabel = css`
-    flex: 1 0 auto;
-    max-width: 80%;
-    overflow-wrap: break-word;
-  `
-
-  const deleteButton = css`
-    background: transparent;
-    border: none;
   `
 
   return (
@@ -219,17 +220,6 @@ const DraggableTaskCard = ({
     align-items: center;
     border: 2px solid white;
   `
-  const checkbox = css`
-    display: none;
-  `
-
-  const checkboxWrapper = css`
-    display: flex;
-    margin: 1rem;
-    position: relative;
-    width: 1.5rem;
-    align-items: center;
-  `
 
   const checkboxWrapperLabel = css`
     background: none repeat scroll 0 0 #eeeeee;
@@ -261,17 +251,6 @@ const DraggableTaskCard = ({
         opacity: 1;
       }
     `}
-  `
-
-  const taskLabel = css`
-    flex: 1 0 auto;
-    max-width: 80%;
-    overflow-wrap: break-word;
-  `
-
-  const deleteButton = css`
-    background: transparent;
-    border: none;
   `
 
   return (
