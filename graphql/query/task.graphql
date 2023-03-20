@@ -14,7 +14,8 @@ query getTasks($userId: String!) {
     content
     done
     due
-    assignedAt
+    start
+    end
     group
     type
     priority
@@ -29,7 +30,8 @@ query getTask($taskId: String!) {
     content
     done
     due
-    assignedAt
+    start
+    end
     group
     type
     priority
@@ -44,7 +46,8 @@ mutation updateTaskIsDone($taskId: String!, $isDone: Boolean!) {
     content
     done
     due
-    assignedAt
+    start
+    end
     group
     type
     priority
@@ -65,9 +68,10 @@ mutation updateTaskContent($taskId: String!, $content: String!) {
   }
 }
 
-mutation updateTaskAssignedAt($taskId: String!, $assignedAt: String!) {
-  updateTaskAssignedAt(id: $taskId, assignedAt: $assignedAt) {
+mutation updateTaskStartEnd($taskId: String!, $start: String!, $end: String!) {
+  updateTaskStartEnd(id: $taskId, start: $start, end: $end) {
     name
-    assignedAt
+    start
+    end
   }
 }
