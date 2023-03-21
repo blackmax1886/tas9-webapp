@@ -12,6 +12,7 @@ import Board from '@/components/board'
 import { css } from '@emotion/react'
 import { DraggableTaskCards } from '@/components/task_card'
 import Calendar from '@/components/calendar'
+import { Task } from '../graphql/dist/client'
 
 const container = css`
   display: flex;
@@ -50,6 +51,8 @@ const TimeTable = () => {
     },
   })
 
+  const [draggedTask, setDraggedTask] = useState<Partial<Task>>()
+
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       createTask({
@@ -82,6 +85,7 @@ const TimeTable = () => {
           <DraggableTaskCards
             data={data}
             refetch={refetch}
+            setDraggedTask={setDraggedTask}
           ></DraggableTaskCards>
         </Board>
         <div css={calendarWrapper}>

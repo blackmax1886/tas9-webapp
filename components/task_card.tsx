@@ -181,9 +181,11 @@ const TaskCards = ({
 const DraggableTaskCard = ({
   task,
   refetch,
+  setDraggedTask,
 }: {
   task: Partial<Task> | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
+  setDraggedTask: (task: Partial<Task> | undefined) => void
 }) => {
   const [isDone, setIsDone] = useState(task?.done)
   const [updateTaskIsDone] = useMutation<UpdateTaskIsDoneMutation>(
@@ -212,6 +214,10 @@ const DraggableTaskCard = ({
 
   const handleDeleteTask = () => {
     deleteTask({ variables: { taskId: task?.id } })
+  }
+  const handleDragStart = () => {
+    console.log('drag start taskId:', task?.id)
+    setDraggedTask(task)
   }
 
   const taskCard = css`
@@ -260,7 +266,9 @@ const DraggableTaskCard = ({
           <input type="checkbox" css={checkbox}></input>
           <label css={checkboxWrapperLabel} onClick={handleTaskIsDone}></label>
         </div>
-        <label css={taskLabel}>{task?.name}</label>
+        <label css={taskLabel} onDragStart={handleDragStart} draggable>
+          {task?.name}
+        </label>
         <button css={deleteButton} onClick={handleDeleteTask}>
           <Image
             src="/delete-button.png"
@@ -277,9 +285,11 @@ const DraggableTaskCard = ({
 const DraggableTaskCards = ({
   data,
   refetch,
+  setDraggedTask,
 }: {
   data: GetTasksQuery | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
+  setDraggedTask: (task: Partial<Task> | undefined) => void
 }) => {
   return (
     <>
@@ -288,6 +298,7 @@ const DraggableTaskCards = ({
           key={task.id}
           task={task}
           refetch={refetch}
+          setDraggedTask={setDraggedTask}
         ></DraggableTaskCard>
       ))}
     </>
