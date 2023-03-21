@@ -289,6 +289,7 @@ const DraggableTaskCards = ({
 }: {
   data: GetTasksQuery | undefined
   refetch: QueryResult<GetTasksQuery>['refetch']
+  //TODO: not undefined, should be null?
   setDraggedTask: (task: Partial<Task> | undefined) => void
 }) => {
   return (

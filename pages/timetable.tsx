@@ -5,6 +5,8 @@ import {
   CreateTaskDocument,
   GetTasksQuery,
   GetTasksDocument,
+  UpdateTaskStartEndMutation,
+  UpdateTaskStartEndDocument,
 } from '../graphql/dist/client'
 import { useSession } from 'next-auth/react'
 import { ContentHeader, Header } from '../components/header'
@@ -13,6 +15,12 @@ import { css } from '@emotion/react'
 import { DraggableTaskCards } from '@/components/task_card'
 import Calendar from '@/components/calendar'
 import { Task } from '../graphql/dist/client'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
+import { Event, SlotInfo, stringOrDate } from 'react-big-calendar'
+
+dayjs.locale('ja')
+const formatString = 'YYYY-MM-DD HH:mm'
 
 const container = css`
   display: flex;
@@ -51,7 +59,16 @@ const TimeTable = () => {
     },
   })
 
-  const [draggedTask, setDraggedTask] = useState<Partial<Task>>()
+  const [draggedTask, setDraggedTask] = useState<Partial<Task> | null>()
+  const [updateTaskStartEnd] = useMutation<UpdateTaskStartEndMutation>(
+    UpdateTaskStartEndDocument,
+    {
+      onCompleted() {
+        // Idea: to optimize, do not use refetch & use only mutation & add event to calendar manually
+        refetch()
+      },
+    }
+  )
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -64,6 +81,22 @@ const TimeTable = () => {
         },
       })
     }
+  }
+  const handleDropFromOutside = ({
+    start,
+    end,
+  }: {
+    start: stringOrDate
+    end: stringOrDate
+  }) => {
+    updateTaskStartEnd({
+      variables: {
+        taskId: draggedTask?.id,
+        start: dayjs(start).format(formatString),
+        end: dayjs(end).format(formatString),
+      },
+    })
+    setDraggedTask(null)
   }
 
   return (
@@ -89,7 +122,7 @@ const TimeTable = () => {
           ></DraggableTaskCards>
         </Board>
         <div css={calendarWrapper}>
-          <Calendar />
+          <Calendar onDropFromOutside={handleDropFromOutside} />
         </div>
       </div>
     </div>
