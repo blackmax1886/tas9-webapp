@@ -98,6 +98,24 @@ const TimeTable = () => {
     })
     setDraggedTask(null)
   }
+  const handleEventDrop = ({
+    event,
+    start,
+    end,
+  }: {
+    event: object
+    start: stringOrDate
+    end: stringOrDate
+  }) => {
+    updateTaskStartEnd({
+      variables: {
+        // TODO: define custom event type
+        taskId: event.taskId,
+        start: dayjs(start).format(formatString),
+        end: dayjs(end).format(formatString),
+      },
+    })
+  }
 
   return (
     <div style={{ margin: '0 auto', width: '1600px' }}>
@@ -125,6 +143,7 @@ const TimeTable = () => {
           <Calendar
             tasks={data?.tasks}
             onDropFromOutside={handleDropFromOutside}
+            onEventDrop={handleEventDrop}
           />
         </div>
       </div>

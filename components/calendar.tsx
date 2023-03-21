@@ -21,6 +21,7 @@ const tasksAsEvents = (tasks: Partial<Task>[] | undefined) => {
   }
   const events = tasks.map((task) => {
     return {
+      taskId: task.id,
       title: task.name,
       start: dayjs(task.start, formatString).toDate(),
       end: dayjs(task.end, formatString).toDate(),
@@ -49,12 +50,22 @@ const TimeSlotWrapper: React.FC<TimeSlotWrapperProps> = ({ children }) => {
 const Calendar = ({
   tasks,
   onDropFromOutside,
+  onEventDrop,
 }: {
   tasks: Partial<Task>[] | undefined
   onDropFromOutside: ({
     start,
     end,
   }: {
+    start: stringOrDate
+    end: stringOrDate
+  }) => void
+  onEventDrop: ({
+    event,
+    start,
+    end,
+  }: {
+    event: object
     start: stringOrDate
     end: stringOrDate
   }) => void
@@ -67,7 +78,9 @@ const Calendar = ({
         events={events}
         defaultView="day"
         onDropFromOutside={onDropFromOutside}
+        onEventDrop={onEventDrop}
         components={{
+          // TODO: fix ts error
           timeSlotWrapper: TimeSlotWrapper,
         }}
         css={calendar}
