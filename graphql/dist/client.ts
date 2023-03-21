@@ -30,6 +30,7 @@ export type Mutation = {
   linkAccount: User;
   updateTaskContent: Task;
   updateTaskIsDone: Task;
+  updateTaskStartEnd: Task;
 };
 
 
@@ -67,6 +68,13 @@ export type MutationUpdateTaskContentArgs = {
 export type MutationUpdateTaskIsDoneArgs = {
   id: Scalars['String'];
   isDone: Scalars['Boolean'];
+};
+
+
+export type MutationUpdateTaskStartEndArgs = {
+  end: Scalars['String'];
+  id: Scalars['String'];
+  start: Scalars['String'];
 };
 
 export type NewSubtask = {
@@ -136,27 +144,29 @@ export type QueryUserByEmailArgs = {
 export type Subtask = {
   __typename?: 'Subtask';
   archived: Scalars['Boolean'];
-  assigned_at?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   done: Scalars['Boolean'];
   due?: Maybe<Scalars['String']>;
+  end?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
   priority?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['String']>;
   task: Task;
 };
 
 export type Task = {
   __typename?: 'Task';
   archived: Scalars['Boolean'];
-  assigned_at?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   done: Scalars['Boolean'];
   due?: Maybe<Scalars['String']>;
+  end?: Maybe<Scalars['String']>;
   group?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
   priority?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['String']>;
   subtasks: Array<Subtask>;
   type?: Maybe<Scalars['String']>;
   user: User;
@@ -185,14 +195,14 @@ export type GetTasksQueryVariables = Exact<{
 }>;
 
 
-export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean }> };
+export type GetTasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, start?: string | null, end?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean }> };
 
 export type GetTaskQueryVariables = Exact<{
   taskId: Scalars['String'];
 }>;
 
 
-export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
+export type GetTaskQuery = { __typename?: 'Query', task: { __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, start?: string | null, end?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
 
 export type UpdateTaskIsDoneMutationVariables = Exact<{
   taskId: Scalars['String'];
@@ -200,7 +210,7 @@ export type UpdateTaskIsDoneMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTaskIsDoneMutation = { __typename?: 'Mutation', updateTaskIsDone: { __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, assigned_at?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
+export type UpdateTaskIsDoneMutation = { __typename?: 'Mutation', updateTaskIsDone: { __typename?: 'Task', id: string, name: string, content?: string | null, done: boolean, due?: string | null, start?: string | null, end?: string | null, group?: string | null, type?: string | null, priority?: string | null, archived: boolean } };
 
 export type DeleteTaskMutationVariables = Exact<{
   taskId: Scalars['String'];
@@ -216,6 +226,15 @@ export type UpdateTaskContentMutationVariables = Exact<{
 
 
 export type UpdateTaskContentMutation = { __typename?: 'Mutation', updateTaskContent: { __typename?: 'Task', name: string, content?: string | null } };
+
+export type UpdateTaskStartEndMutationVariables = Exact<{
+  taskId: Scalars['String'];
+  start: Scalars['String'];
+  end: Scalars['String'];
+}>;
+
+
+export type UpdateTaskStartEndMutation = { __typename?: 'Mutation', updateTaskStartEnd: { __typename?: 'Task', name: string, start?: string | null, end?: string | null } };
 
 export type GetUserByEmailQueryVariables = Exact<{
   email: Scalars['String'];
@@ -271,7 +290,8 @@ export const GetTasksDocument = gql`
     content
     done
     due
-    assigned_at
+    start
+    end
     group
     type
     priority
@@ -287,7 +307,8 @@ export const GetTaskDocument = gql`
     content
     done
     due
-    assigned_at
+    start
+    end
     group
     type
     priority
@@ -303,7 +324,8 @@ export const UpdateTaskIsDoneDocument = gql`
     content
     done
     due
-    assigned_at
+    start
+    end
     group
     type
     priority
@@ -323,6 +345,15 @@ export const UpdateTaskContentDocument = gql`
   updateTaskContent(id: $taskId, content: $content) {
     name
     content
+  }
+}
+    `;
+export const UpdateTaskStartEndDocument = gql`
+    mutation updateTaskStartEnd($taskId: String!, $start: String!, $end: String!) {
+  updateTaskStartEnd(id: $taskId, start: $start, end: $end) {
+    name
+    start
+    end
   }
 }
     `;
@@ -397,6 +428,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     updateTaskContent(variables: UpdateTaskContentMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTaskContentMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateTaskContentMutation>(UpdateTaskContentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateTaskContent', 'mutation');
+    },
+    updateTaskStartEnd(variables: UpdateTaskStartEndMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTaskStartEndMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateTaskStartEndMutation>(UpdateTaskStartEndDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateTaskStartEnd', 'mutation');
     },
     getUserByEmail(variables: GetUserByEmailQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserByEmailQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserByEmailQuery>(GetUserByEmailDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserByEmail', 'query');

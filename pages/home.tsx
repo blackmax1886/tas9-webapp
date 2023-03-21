@@ -18,6 +18,7 @@ import { TaskDetail } from '@/components/task_detail'
 
 const container = css`
   display: flex;
+  min-height: 800px;
 `
 const addTask = css`
   box-sizing: border-box;
@@ -77,7 +78,7 @@ const Home: NextPage = () => {
   return (
     <div style={{ margin: '0 auto', width: '1600px' }}>
       <Header></Header>
-      <ContentHeader></ContentHeader>
+      <ContentHeader selected="TaskManager"></ContentHeader>
       <div css={container}>
         <Board>
           <div>

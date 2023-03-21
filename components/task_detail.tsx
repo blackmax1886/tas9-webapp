@@ -5,12 +5,18 @@ import {
   UpdateTaskContentDocument,
 } from '@/graphql/dist/client'
 import { useMutation } from '@apollo/client'
-import { useState, ChangeEvent, useEffect, useRef } from 'react'
+import { useState, ChangeEvent, useEffect, useRef, use } from 'react'
+import { useUpdateEffect } from 'react-use'
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 
 const taskDetail = css`
   display: flex;
   flex-direction: column;
   height: 100%;
+`
+
+const taskName = css`
+  overflow-wrap: break-word;
 `
 
 const taskContentWrapper = css`
@@ -31,45 +37,41 @@ const taskContent = css`
 
 const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
   const [content, setContent] = useState(selectedTask.content || '')
-  const isMounted = useRef(false)
+  const [isSaved, setIsSaved] = useState(true)
   const [updateTaskContent] = useMutation<UpdateTaskContentMutation>(
     UpdateTaskContentDocument
   )
 
-  useEffect(() => {
-    if (isMounted.current) {
-      console.log('content useEffect with :' + content)
-      const timeoutId = setTimeout(() => {
-        updateTaskContent({
-          variables: { taskId: selectedTask?.id, content: content },
-        })
-        console.log('run update')
-      }, 5000)
-      console.log(timeoutId)
-      return () => {
-        console.log('run cleanup')
-        clearTimeout(timeoutId)
-      }
+  useUpdateEffect(() => {
+    const timeoutId = setTimeout(() => {
+      updateTaskContent({
+        variables: { taskId: selectedTask?.id, content: content },
+      })
+      console.log('run update')
+      setIsSaved(true)
+    }, 3000)
+    return () => {
+      console.log('run cleanup')
+      clearTimeout(timeoutId)
     }
-    console.log(isMounted.current)
-    isMounted.current = true
   }, [content])
 
-  const handleChangeTaskContent = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeTaskContent = (event: ContentEditableEvent) => {
+    setIsSaved(false)
     setContent(event.target.value || '')
-    console.log('onChange with :' + content)
   }
 
   return (
     <div css={taskDetail}>
-      <h1>{selectedTask?.name}</h1>
+      <h1 css={taskName}>{selectedTask?.name}</h1>
       <div css={taskContentWrapper}>
-        <textarea
+        <ContentEditable
           css={taskContent}
-          value={content}
+          html={content}
           onChange={handleChangeTaskContent}
-        ></textarea>
+        />
       </div>
+      <div>{isSaved ? 'saved' : 'saving...'}</div>
     </div>
   )
 }
