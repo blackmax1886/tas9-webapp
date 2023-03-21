@@ -71,12 +71,16 @@ const Calendar = ({
   }) => void
 }) => {
   const events = tasksAsEvents(tasks)
+  const defaultDate = dayjs().toDate()
+  const scrollToTime = dayjs().toDate()
   return (
     <div>
       <DragAndDropCalendar
         localizer={localizer}
         events={events}
         defaultView="day"
+        defaultDate={defaultDate}
+        scrollToTime={scrollToTime}
         onDropFromOutside={onDropFromOutside}
         onEventDrop={onEventDrop}
         components={{
