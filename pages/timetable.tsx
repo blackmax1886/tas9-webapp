@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import {
   CreateTaskMutation,
@@ -7,17 +7,17 @@ import {
   GetTasksDocument,
   UpdateTaskStartEndMutation,
   UpdateTaskStartEndDocument,
-} from '../graphql/dist/client'
+  Task,
+} from '@/graphql/dist/client'
 import { useSession } from 'next-auth/react'
-import { ContentHeader, Header } from '../components/header'
+import { ContentHeader, Header } from '@/components/header'
 import Board from '@/components/board'
 import { css } from '@emotion/react'
 import { DraggableTaskCards } from '@/components/task_card'
 import Calendar from '@/components/calendar'
-import { Task } from '../graphql/dist/client'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja'
-import { Event, SlotInfo, stringOrDate } from 'react-big-calendar'
+import { stringOrDate } from 'react-big-calendar'
 
 dayjs.locale('ja')
 const formatString = 'YYYY-MM-DD HH:mm'
