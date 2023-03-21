@@ -122,7 +122,10 @@ const TimeTable = () => {
           ></DraggableTaskCards>
         </Board>
         <div css={calendarWrapper}>
-          <Calendar onDropFromOutside={handleDropFromOutside} />
+          <Calendar
+            tasks={data?.tasks}
+            onDropFromOutside={handleDropFromOutside}
+          />
         </div>
       </div>
     </div>

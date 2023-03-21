@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import { css } from '@emotion/react'
+import { Task } from '@/graphql/dist/client'
 
 const localizer = dayjsLocalizer(dayjs)
 const DragAndDropCalendar = withDragAndDrop(ReactBigCalendar)
@@ -16,8 +17,10 @@ const calendar = css`
 `
 
 const Calendar = ({
+  tasks,
   onDropFromOutside,
 }: {
+  tasks: Partial<Task>[] | undefined
   onDropFromOutside: ({
     start,
     end,
