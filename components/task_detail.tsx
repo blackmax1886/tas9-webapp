@@ -64,6 +64,9 @@ const TaskDetail = ({ selectedTask }: { selectedTask: Partial<Task> }) => {
   return (
     <div css={taskDetail}>
       <h1 css={taskName}>{selectedTask?.name}</h1>
+      <div>
+        assigned at: {selectedTask.start} - {selectedTask.end}
+      </div>
       <div css={taskContentWrapper}>
         <ContentEditable
           css={taskContent}
