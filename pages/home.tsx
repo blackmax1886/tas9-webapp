@@ -57,7 +57,7 @@ const Home: NextPage = () => {
   }, [selectedTaskId])
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && inputValue) {
       createTask({
         variables: {
           task: {
