@@ -22,7 +22,7 @@ function MyApp({
   pageProps: { session, ...pageProps },
 }: CustomAppProps) {
   const httpLink = createHttpLink({
-    uri: 'http://localhost:8080/query',
+    uri: process.env.NEXT_PUBLIC_SERVER_URL,
     credentials: 'include',
   })
   const client = new ApolloClient({
