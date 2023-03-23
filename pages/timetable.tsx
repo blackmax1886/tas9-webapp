@@ -109,7 +109,7 @@ const TimeTable = () => {
   }) => {
     updateTaskStartEnd({
       variables: {
-        // TODO: define custom event type
+        // @ts-expect-error to be fixed
         taskId: event.taskId,
         start: dayjs(start).format(formatString),
         end: dayjs(end).format(formatString),

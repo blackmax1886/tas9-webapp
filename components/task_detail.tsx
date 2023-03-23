@@ -5,7 +5,7 @@ import {
   UpdateTaskContentDocument,
 } from '@/graphql/dist/client'
 import { useMutation } from '@apollo/client'
-import { useState, ChangeEvent, useEffect, useRef, use } from 'react'
+import { useState } from 'react'
 import { useUpdateEffect } from 'react-use'
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 
