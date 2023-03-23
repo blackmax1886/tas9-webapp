@@ -38,6 +38,7 @@
     "@graphql-codegen/typescript-resolvers": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
+    "eslint-config-prettier": "^8.8.0",
     "prettier": "2.8.4"
   }
 }
