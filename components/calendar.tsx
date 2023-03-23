@@ -84,7 +84,7 @@ const Calendar = ({
         onDropFromOutside={onDropFromOutside}
         onEventDrop={onEventDrop}
         components={{
-          // TODO: fix ts error
+          // @ts-expect-error to be fixed
           timeSlotWrapper: TimeSlotWrapper,
         }}
         css={calendar}

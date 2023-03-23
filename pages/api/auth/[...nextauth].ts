@@ -55,6 +55,7 @@ export default NextAuth({
     },
   },
   adapter: {
+    // @ts-expect-error to be fixed
     createUser: async (newUser: NewUser) => {
       const { createUser } = await sdk.createUser({ user: newUser })
       return { emailVerified: null, ...createUser }
@@ -88,15 +89,15 @@ export default NextAuth({
       }
       await sdk.linkAccount({ account: account })
     },
-    // @ts-ignore
-    createSession: () => {},
-    // @ts-ignore
-    getSessionAndUser: () => {},
-    // @ts-ignore
-    updateSession: () => {},
-    // @ts-ignore
-    deleteSession: () => {},
-    // @ts-ignore
-    updateUser: () => {},
+    // // @ts-expect-error to be implemented
+    // createSession: () => {},
+    // // @ts-expect-error to be implemented
+    // getSessionAndUser: () => {},
+    // // @ts-expect-error to be implemented
+    // updateSession: () => {},
+    // // @ts-expect-error to be implemented
+    // deleteSession: () => {},
+    // // @ts-expect-error to be implemented
+    // updateUser: () => {},
   },
 })
